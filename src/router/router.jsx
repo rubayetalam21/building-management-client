@@ -6,6 +6,7 @@ import AuthLayout from "../layouts/AuthLayout";
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
 import ForgetPassword from "../Pages/ForgetPassword";
+import AllApartments from "../Pages/AllApartments";
 
 
 
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
             {
                 path: '',
                 element: <Home></Home>,
+            },
+            {
+                path: '/apartments',
+                element: <AllApartments></AllApartments>
             }
 
         ],
