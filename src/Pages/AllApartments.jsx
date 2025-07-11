@@ -62,6 +62,10 @@ const AllApartments = () => {
 
     return (
         <div className="p-6 max-w-6xl mx-auto">
+            <div className="max-w-6xl mx-auto text-center mb-12">
+                <h2 className="text-4xl font-bold text-teal-600 mb-2">All Apartments</h2>
+
+            </div>
             {/* Search by Rent */}
             <div className="flex gap-4 mb-6 items-end">
                 <div>

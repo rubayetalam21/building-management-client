@@ -7,6 +7,8 @@ import { RouterProvider } from 'react-router'
 import { HelmetProvider } from 'react-helmet-async'
 import AuthProvider from './Provider/AuthProvider.jsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import 'leaflet/dist/leaflet.css';
+
 
 
 

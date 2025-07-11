@@ -15,7 +15,7 @@ const Footer = () => {
         <footer className=" w-11/12 mx-auto flex items-center justify-center flex-col gap-5 bg-base-200 text-base-content py-4 rounded p-2 my-5">
 
             <div className='flex flew-row'>
-                <a className="text-2xl font-bold text-teal-500">Food Sharing</a>
+                <a className="text-2xl font-bold text-teal-500">Building Management</a>
             </div>
 
             <div className="flex flex-col md:flex-row gap-4 md:gap-10 text-center md:text-left">
