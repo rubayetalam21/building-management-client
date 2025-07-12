@@ -12,7 +12,7 @@ import CouponSection from "../Pages/CouponSection";
 import AgreementRequests from "../Pages/AgreementRequests";
 import PrivateRoute from "../Provider/PrivateRoute";
 import ManageMembers from "../Pages/ManageMembers";
-import AnnouncementPage from "../Pages/AnnoucementPage";
+import AnnouncementPage from "../Pages/AnnouncementPage";
 import AdminRoute from "../Provider/AdminRoute";
 import ManageCoupons from "../Pages/ManageCoupons";
 import UserRoute from "../Provider/UserRoute";

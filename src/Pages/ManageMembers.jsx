@@ -1,14 +1,30 @@
 import { useQuery } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
+import { getAuth } from 'firebase/auth';
+import app from '../firebase/firebase.config';
+
+const auth = getAuth(app);
 
 const ManageMembers = () => {
+    const fetchMembers = async () => {
+        const token = await auth.currentUser.getIdToken();
+        const res = await fetch('http://localhost:5000/users', {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (!res.ok) {
+            throw new Error('Failed to fetch users');
+        }
+
+        const allUsers = await res.json();
+        return allUsers.filter((user) => user.role === 'member');
+    };
+
     const { data: members = [], refetch, isLoading } = useQuery({
         queryKey: ['members'],
-        queryFn: async () => {
-            const res = await fetch('http://localhost:5000/users');
-            const allUsers = await res.json();
-            return allUsers.filter((user) => user.role === 'member');
-        },
+        queryFn: fetchMembers,
     });
 
     const handleRemoveMember = async (id, name) => {
@@ -20,9 +36,14 @@ const ManageMembers = () => {
         });
 
         if (confirm.isConfirmed) {
+            const token = await auth.currentUser.getIdToken();
+
             const res = await fetch(`http://localhost:5000/users/${id}/role`, {
                 method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
                 body: JSON.stringify({ role: 'user' }),
             });
 
@@ -32,12 +53,12 @@ const ManageMembers = () => {
                 Swal.fire('Removed!', `${name} is now a regular user.`, 'success');
                 refetch();
             } else {
-                Swal.fire('Error', 'Failed to change role', 'error');
+                Swal.fire('Error', result.message || 'Failed to change role', 'error');
             }
         }
     };
 
-    if (isLoading) return <p>Loading members...</p>;
+    if (isLoading) return <p className="text-center py-10">Loading members...</p>;
 
     return (
         <div className="p-6">
