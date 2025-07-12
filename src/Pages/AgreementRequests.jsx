@@ -1,33 +1,58 @@
 import { useQuery } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
+import useUserRole from '../hooks/useUserRole';
 
 const AgreementRequests = () => {
-    const { data: requests = [], refetch } = useQuery({
+    const { role, isLoading: roleLoading } = useUserRole();
+
+    const { data: requests = [], refetch, isLoading } = useQuery({
         queryKey: ['agreements'],
         queryFn: async () => {
             const res = await fetch('http://localhost:5000/agreements');
             const data = await res.json();
-            return data.agreements;
+            return data.agreements?.filter(req => req.status !== 'checked') || [];
         },
+        enabled: role === 'admin'
     });
 
-    const handleStatusUpdate = async (id, newStatus) => {
-        const res = await fetch(`http://localhost:5000/agreements/${id}`, {
+    const handleAccept = async (request) => {
+        const agreementUpdate = await fetch(`http://localhost:5000/agreements/${request._id}`, {
             method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ status: newStatus }),
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: 'checked' })
         });
 
-        const result = await res.json();
-        if (res.ok) {
-            Swal.fire('Updated!', `Status set to ${newStatus}`, 'success');
+        const roleUpdate = await fetch(`http://localhost:5000/users/role/${request.userEmail}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ role: 'member' })
+        });
+
+        if (agreementUpdate.ok && roleUpdate.ok) {
+            Swal.fire('Accepted!', 'Agreement approved and role updated.', 'success');
             refetch();
         } else {
-            Swal.fire('Error', result.message || 'Update failed', 'error');
+            Swal.fire('Error', 'Something went wrong.', 'error');
         }
     };
+
+    const handleReject = async (request) => {
+        const res = await fetch(`http://localhost:5000/agreements/${request._id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: 'checked' })
+        });
+
+        if (res.ok) {
+            Swal.fire('Rejected!', 'Agreement rejected.', 'info');
+            refetch();
+        } else {
+            Swal.fire('Error', 'Failed to reject request.', 'error');
+        }
+    };
+
+    if (roleLoading || isLoading) return <p className="p-4">Loading...</p>;
+    if (role !== 'admin') return <p className="text-red-600 text-center mt-6">Unauthorized access</p>;
 
     return (
         <div>
@@ -38,42 +63,33 @@ const AgreementRequests = () => {
                         <tr className="bg-gray-100">
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Apartment</th>
+                            <th>Floor</th>
+                            <th>Block</th>
+                            <th>Room No</th>
                             <th>Rent</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>Requested On</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {requests.map((req) => (
-                            <tr key={req._id} className="hover:bg-gray-50">
+                            <tr key={req._id}>
                                 <td>{req.userName}</td>
                                 <td>{req.userEmail}</td>
-                                <td>
-                                    Floor {req.floor}, Block {req.block}, Apt {req.apartmentNo}
-                                </td>
+                                <td>{req.floor}</td>
+                                <td>{req.block}</td>
+                                <td>{req.apartmentNo}</td>
                                 <td>৳{req.rent}</td>
-                                <td>
-                                    <span
-                                        className={`px-2 py-1 rounded text-white text-sm ${req.status === 'approved'
-                                            ? 'bg-green-500'
-                                            : req.status === 'rejected'
-                                                ? 'bg-red-500'
-                                                : 'bg-yellow-500'
-                                            }`}
-                                    >
-                                        {req.status}
-                                    </span>
-                                </td>
+                                <td>{new Date(req.createdAt).toLocaleDateString()}</td>
                                 <td className="space-x-2">
                                     <button
-                                        onClick={() => handleStatusUpdate(req._id, 'approved')}
+                                        onClick={() => handleAccept(req)}
                                         className="bg-green-600 text-white px-3 py-1 rounded"
                                     >
-                                        Approve
+                                        Accept
                                     </button>
                                     <button
-                                        onClick={() => handleStatusUpdate(req._id, 'rejected')}
+                                        onClick={() => handleReject(req)}
                                         className="bg-red-600 text-white px-3 py-1 rounded"
                                     >
                                         Reject

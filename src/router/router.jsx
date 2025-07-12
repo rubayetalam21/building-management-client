@@ -12,6 +12,13 @@ import CouponSection from "../Pages/CouponSection";
 import AgreementRequests from "../Pages/AgreementRequests";
 import PrivateRoute from "../Provider/PrivateRoute";
 import ManageMembers from "../Pages/ManageMembers";
+import AnnouncementPage from "../Pages/AnnoucementPage";
+import AdminRoute from "../Provider/AdminRoute";
+import ManageCoupons from "../Pages/ManageCoupons";
+import UserRoute from "../Provider/UserRoute";
+import UserProfile from "../Pages/UserProfile";
+import MemberRoute from "../Provider/MemberRoute";
+import MemberProfile from "../Pages/MemberProfile";
 
 
 
@@ -55,15 +62,27 @@ const router = createBrowserRouter([
         children: [
             {
                 path: 'coupons',
-                element: <CouponSection></CouponSection>,
+                element: <AdminRoute><ManageCoupons></ManageCoupons></AdminRoute>,
             },
             {
                 path: 'agreementRequests',
-                element: <AgreementRequests></AgreementRequests>
+                element: <AdminRoute> <AgreementRequests></AgreementRequests> </AdminRoute>
             },
             {
                 path: 'manageMembers',
-                element: <ManageMembers></ManageMembers>
+                element: <AdminRoute><ManageMembers></ManageMembers></AdminRoute>
+            },
+            {
+                path: 'announcements',
+                element: <AnnouncementPage></AnnouncementPage>
+            },
+            {
+                path:'userProfile',
+                element: <UserRoute><UserProfile></UserProfile></UserRoute>
+            },
+            {
+                path: 'memberProfile',
+                element: <MemberRoute><MemberProfile></MemberProfile></MemberRoute>
             }
         ],
     },
