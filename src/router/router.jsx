@@ -7,6 +7,10 @@ import Login from "../Pages/Login";
 import Register from "../Pages/Register";
 import ForgetPassword from "../Pages/ForgetPassword";
 import AllApartments from "../Pages/AllApartments";
+import DashboardLayout from "../layouts/DashboardLayout";
+import CouponSection from "../Pages/CouponSection";
+import AgreementRequests from "../Pages/AgreementRequests";
+import PrivateRoute from "../Provider/PrivateRoute";
 
 
 
@@ -44,6 +48,21 @@ const router = createBrowserRouter([
             },
         ],
     },
+    {
+        path: '/dashboard',
+        element:<PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
+        children: [
+            {
+                path: 'coupons',
+                element: <CouponSection></CouponSection>,
+            },
+            {
+                path: 'agreementRequests',
+                element: <AgreementRequests></AgreementRequests>
+            }
+        ],
+    },
+
     {
         path: '/*',
         element: <ErrorPage></ErrorPage>,
