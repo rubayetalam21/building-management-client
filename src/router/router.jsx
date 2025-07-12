@@ -11,6 +11,7 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import CouponSection from "../Pages/CouponSection";
 import AgreementRequests from "../Pages/AgreementRequests";
 import PrivateRoute from "../Provider/PrivateRoute";
+import ManageMembers from "../Pages/ManageMembers";
 
 
 
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
             {
                 path: 'agreementRequests',
                 element: <AgreementRequests></AgreementRequests>
+            },
+            {
+                path: 'manageMembers',
+                element: <ManageMembers></ManageMembers>
             }
         ],
     },

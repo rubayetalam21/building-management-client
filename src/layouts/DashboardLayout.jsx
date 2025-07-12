@@ -15,7 +15,7 @@ const DashboardLayout = () => {
         <div className="text-xl font-bold text-teal-600 mb-4">Admin Dashboard</div>
         <nav className="flex flex-col space-y-2">
           <NavLink to="profile" className={linkStyle}>Admin Profile</NavLink>
-          <NavLink to="members" className={linkStyle}>Manage Members</NavLink>
+          <NavLink to="manageMembers" className={linkStyle}>Manage Members</NavLink>
           <NavLink to="announcement" className={linkStyle}>Make Announcement</NavLink>
           <NavLink to="agreementRequests" className={linkStyle}>Agreement Requests</NavLink>
           <NavLink to="coupons" className={linkStyle}>Manage Coupons</NavLink>
