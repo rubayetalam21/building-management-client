@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { AuthContext } from '../Provider/AuthProvider';
+import { getIdToken } from 'firebase/auth';
 
 const PaymentHistory = () => {
     const { user } = useContext(AuthContext);
@@ -9,7 +10,15 @@ const PaymentHistory = () => {
         queryKey: ['payments', user?.email],
         queryFn: async () => {
             if (!user?.email) return [];
-            const res = await fetch(`http://localhost:5000/payments/user/${user.email}`);
+
+            const token = await getIdToken(user); // ✅ Get token from Firebase
+
+            const res = await fetch(`http://localhost:5000/payments/${user.email}`, {
+                headers: {
+                    Authorization: `Bearer ${token}` // ✅ Include Authorization header
+                }
+            });
+
             if (!res.ok) throw new Error('Failed to fetch payments');
             return res.json();
         },
@@ -38,10 +47,10 @@ const PaymentHistory = () => {
                         <tbody>
                             {payments.map((payment) => (
                                 <tr key={payment._id} className="hover:bg-gray-50">
-                                    <td>{new Date(payment.paymentDate).toLocaleDateString()}</td>
+                                    <td>{new Date(payment.paymentDate || payment.createdAt).toLocaleDateString()}</td>
                                     <td>{payment.month}</td>
                                     <td>{payment.amount || payment.rent}</td>
-                                    <td>{payment.transactionId}</td>
+                                    <td className="text-blue-600">{payment.transactionId}</td>
                                 </tr>
                             ))}
                         </tbody>
