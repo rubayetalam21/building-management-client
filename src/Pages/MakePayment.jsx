@@ -8,7 +8,11 @@ const MakePayment = () => {
     const { user } = useContext(AuthContext);
     const [agreement, setAgreement] = useState(null);
     const [month, setMonth] = useState('');
+    const [coupon, setCoupon] = useState('');
+    const [discountedRent, setDiscountedRent] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [applyingCoupon, setApplyingCoupon] = useState(false);
+    const [couponApplied, setCouponApplied] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -25,6 +29,7 @@ const MakePayment = () => {
 
                 const data = await res.json();
                 setAgreement(data);
+                setDiscountedRent(data.rent.toFixed(2)); // initially full rent
             } catch (error) {
                 console.error('Error fetching agreement:', error.message);
                 Swal.fire('Error', error.message, 'error');
@@ -35,6 +40,40 @@ const MakePayment = () => {
 
         if (user?.email) fetchAgreement();
     }, [user]);
+
+    const handleApplyCoupon = async () => {
+        if (!coupon) {
+            Swal.fire('Please enter a coupon code', '', 'info');
+            return;
+        }
+        setApplyingCoupon(true);
+        try {
+            const res = await fetch(`http://localhost:5000/coupons/${coupon}`);
+            if (!res.ok) throw new Error('Invalid or expired coupon');
+            const data = await res.json();
+            const discount = (agreement.rent * data.discountPercentage) / 100;
+            const newRent = agreement.rent - discount;
+
+            console.log(data, discount, newRent);
+
+            setDiscountedRent(newRent.toFixed(2));
+            setCouponApplied(true);
+            Swal.fire('Coupon applied!', `You got ${data.discountPercentage}% off.`, 'success');
+        } catch (error) {
+            console.error(error.message);
+            Swal.fire('Error', error.message, 'error');
+            setDiscountedRent(agreement.rent.toFixed(2)); // Reset discount on error
+            setCouponApplied(false);
+        } finally {
+            setApplyingCoupon(false);
+        }
+    };
+
+    const handleRemoveCoupon = () => {
+        setCoupon('');
+        setDiscountedRent(agreement.rent.toFixed(2));
+        setCouponApplied(false);
+    };
 
     const handlePay = (e) => {
         e.preventDefault();
@@ -49,7 +88,7 @@ const MakePayment = () => {
                 floor: agreement.floor,
                 block: agreement.block,
                 apartmentNo: agreement.apartmentNo,
-                rent: agreement.rent,
+                rent: Number(discountedRent),
                 month,
             },
         });
@@ -84,8 +123,49 @@ const MakePayment = () => {
                     <input type="text" value={agreement.apartmentNo} readOnly className="input input-bordered w-full" />
                 </div>
                 <div>
-                    <label>Rent (৳)</label>
-                    <input type="text" value={agreement.rent} readOnly className="input input-bordered w-full" />
+                    <label>Original Rent (৳)</label>
+                    <input
+                        type="text"
+                        value={agreement.rent.toFixed(2)}
+                        readOnly
+                        className="input input-bordered w-full mb-2"
+                    />
+                    {couponApplied && (
+                        <input
+                            type="text"
+                            value={discountedRent}
+                            readOnly
+                            className="input input-bordered w-full text-green-700 font-bold mb-2"
+                            aria-label="Discounted Rent"
+                        />
+                    )}
+                </div>
+                <div className="flex gap-2">
+                    <input
+                        type="text"
+                        placeholder="Enter coupon code"
+                        className="input input-bordered w-full"
+                        value={coupon}
+                        onChange={(e) => setCoupon(e.target.value)}
+                        disabled={applyingCoupon}
+                    />
+                    <button
+                        type="button"
+                        onClick={handleApplyCoupon}
+                        className="btn btn-outline btn-info"
+                        disabled={applyingCoupon}
+                    >
+                        {applyingCoupon ? 'Applying...' : 'Apply'}
+                    </button>
+                    {couponApplied && (
+                        <button
+                            type="button"
+                            onClick={handleRemoveCoupon}
+                            className="btn btn-outline btn-warning"
+                        >
+                            Remove Coupon
+                        </button>
+                    )}
                 </div>
                 <div>
                     <label>Month</label>
