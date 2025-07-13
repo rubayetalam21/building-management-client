@@ -12,6 +12,8 @@ import {
   FaBullhorn,
   FaFileContract,
   FaTags,
+  FaMoneyCheckAlt,
+  FaHistory,
 } from 'react-icons/fa';
 
 const DashboardLayout = () => {
@@ -72,11 +74,11 @@ const DashboardLayout = () => {
                 <FaBullhorn /> <span>View Announcements</span>
               </NavLink>
               <NavLink to="makePayment" className={linkStyle}>
-                <FaBullhorn /> <span>Make Payment</span>
+                <FaMoneyCheckAlt className="mr-2" /> <span>Make Payment</span>
               </NavLink>
 
               <NavLink to="paymentHistory" className={linkStyle}>
-                <FaBullhorn /> <span>Payment History</span>
+                <FaHistory className="mr-2" /> <span>Payment History</span>
               </NavLink>
 
             </>
