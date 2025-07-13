@@ -20,6 +20,8 @@ import UserProfile from "../Pages/UserProfile";
 import MemberRoute from "../Provider/MemberRoute";
 import MemberProfile from "../Pages/MemberProfile";
 import MakePayment from "../Pages/MakePayment";
+import Payment from "../Pages/Payment/Payment";
+import PaymentHistory from "../Pages/PaymentHistory";
 
 
 
@@ -59,7 +61,7 @@ const router = createBrowserRouter([
     },
     {
         path: '/dashboard',
-        element:<PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
+        element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
         children: [
             {
                 path: 'coupons',
@@ -78,7 +80,7 @@ const router = createBrowserRouter([
                 element: <AnnouncementPage></AnnouncementPage>
             },
             {
-                path:'userProfile',
+                path: 'userProfile',
                 element: <UserRoute><UserProfile></UserProfile></UserRoute>
             },
             {
@@ -88,6 +90,14 @@ const router = createBrowserRouter([
             {
                 path: 'makePayment',
                 element: <MemberRoute><MakePayment></MakePayment></MemberRoute>
+            },
+            {
+                path: 'payment',
+                element: <Payment></Payment>
+            },
+            {
+                path: 'paymentHistory',
+                element: <MemberRoute><PaymentHistory></PaymentHistory> </MemberRoute>
             }
         ],
     },

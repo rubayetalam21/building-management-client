@@ -71,9 +71,14 @@ const DashboardLayout = () => {
               <NavLink to="announcements" className={linkStyle}>
                 <FaBullhorn /> <span>View Announcements</span>
               </NavLink>
-                <NavLink to="makePayment" className={linkStyle}>
+              <NavLink to="makePayment" className={linkStyle}>
                 <FaBullhorn /> <span>Make Payment</span>
               </NavLink>
+
+              <NavLink to="paymentHistory" className={linkStyle}>
+                <FaBullhorn /> <span>Payment History</span>
+              </NavLink>
+
             </>
           )}
 
