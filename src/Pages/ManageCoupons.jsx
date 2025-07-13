@@ -40,6 +40,32 @@ const ManageCoupons = () => {
         }
     };
 
+    const handleToggleAvailability = async (coupon) => {
+        const confirm = await Swal.fire({
+            title: 'Are you sure?',
+            text: `You want to mark this coupon as ${coupon.available ? 'inactive' : 'active'}?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'Cancel',
+        });
+
+        if (!confirm.isConfirmed) return;
+
+        const res = await fetch(`http://localhost:5000/coupons/${coupon._id}/availability`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ available: !coupon.available }),
+        });
+
+        if (res.ok) {
+            Swal.fire('Updated!', 'Coupon availability updated.', 'success');
+            refetch();
+        } else {
+            Swal.fire('Error', 'Failed to update availability', 'error');
+        }
+    };
+
     if (isLoading || roleLoading) return <p className="p-4">Loading...</p>;
 
     return (
@@ -60,6 +86,7 @@ const ManageCoupons = () => {
                             <th>Coupon Code</th>
                             <th>Discount (%)</th>
                             <th>Description</th>
+                            <th>Availability</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -68,6 +95,14 @@ const ManageCoupons = () => {
                                 <td>{c.couponCode}</td>
                                 <td>{c.discount}%</td>
                                 <td>{c.description}</td>
+                                <td>
+                                    <button
+                                        onClick={() => handleToggleAvailability(c)}
+                                        className={`btn btn-sm ${c.available ? 'btn-success' : 'btn-outline'}`}
+                                    >
+                                        {c.available ? 'Active' : 'Inactive'}
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
