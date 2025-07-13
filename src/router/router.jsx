@@ -22,6 +22,7 @@ import MemberProfile from "../Pages/MemberProfile";
 import MakePayment from "../Pages/MakePayment";
 import Payment from "../Pages/Payment/Payment";
 import PaymentHistory from "../Pages/PaymentHistory";
+import AdminProfile from "../Pages/AdminProfile";
 
 
 
@@ -86,6 +87,10 @@ const router = createBrowserRouter([
             {
                 path: 'memberProfile',
                 element: <MemberRoute><MemberProfile></MemberProfile></MemberRoute>
+            },
+            {
+                path: 'adminProfile',
+                element: <AdminRoute><AdminProfile></AdminProfile></AdminRoute>
             },
             {
                 path: 'makePayment',

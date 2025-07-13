@@ -46,8 +46,8 @@ const DashboardLayout = () => {
           {/* Admin-only links */}
           {role === 'admin' && (
             <>
-              <NavLink to="userProfile" className={linkStyle}>
-                <FaUser /> <span>My Profile</span>
+              <NavLink to="adminProfile" className={linkStyle}>
+                <FaUser /> <span>Admin Profile</span>
               </NavLink>
               <NavLink to="manageMembers" className={linkStyle}>
                 <FaUsersCog /> <span>Manage Members</span>
