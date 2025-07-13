@@ -19,6 +19,7 @@ import UserRoute from "../Provider/UserRoute";
 import UserProfile from "../Pages/UserProfile";
 import MemberRoute from "../Provider/MemberRoute";
 import MemberProfile from "../Pages/MemberProfile";
+import MakePayment from "../Pages/MakePayment";
 
 
 
@@ -83,6 +84,10 @@ const router = createBrowserRouter([
             {
                 path: 'memberProfile',
                 element: <MemberRoute><MemberProfile></MemberProfile></MemberRoute>
+            },
+            {
+                path: 'makePayment',
+                element: <MemberRoute><MakePayment></MakePayment></MemberRoute>
             }
         ],
     },

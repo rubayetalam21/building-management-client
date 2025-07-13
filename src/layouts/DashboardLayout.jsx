@@ -71,6 +71,9 @@ const DashboardLayout = () => {
               <NavLink to="announcements" className={linkStyle}>
                 <FaBullhorn /> <span>View Announcements</span>
               </NavLink>
+                <NavLink to="makePayment" className={linkStyle}>
+                <FaBullhorn /> <span>Make Payment</span>
+              </NavLink>
             </>
           )}
 
