@@ -1,18 +1,28 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 import useUserRole from '../hooks/useUserRole';
+import { AuthContext } from '../Provider/AuthProvider';
 
 const ManageCoupons = () => {
+    const { user } = useContext(AuthContext);
     const { role, isLoading: roleLoading } = useUserRole();
     const [showModal, setShowModal] = useState(false);
 
+    const fetchCoupons = async () => {
+        const token = await user.getIdToken();
+        const res = await fetch('http://localhost:5000/coupons', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return res.json();
+    };
+
     const { data: coupons = [], refetch, isLoading } = useQuery({
         queryKey: ['coupons'],
-        queryFn: async () => {
-            const res = await fetch('http://localhost:5000/coupons');
-            return res.json();
-        },
+        queryFn: fetchCoupons,
+        enabled: !!user
     });
 
     const handleSubmit = async (e) => {
@@ -21,12 +31,16 @@ const ManageCoupons = () => {
         const couponCode = form.code.value.trim();
         const discount = parseFloat(form.discount.value);
         const description = form.description.value.trim();
-
         const coupon = { couponCode, discount, description };
+
+        const token = await user.getIdToken();
 
         const res = await fetch('http://localhost:5000/coupons', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
             body: JSON.stringify(coupon),
         });
 
@@ -52,9 +66,14 @@ const ManageCoupons = () => {
 
         if (!confirm.isConfirmed) return;
 
+        const token = await user.getIdToken();
+
         const res = await fetch(`http://localhost:5000/coupons/${coupon._id}/availability`, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
             body: JSON.stringify({ available: !coupon.available }),
         });
 

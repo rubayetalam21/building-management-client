@@ -1,26 +1,48 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Swal from 'sweetalert2';
-import useUserRole from '../hooks/useUserRole'; // Make sure this hook is implemented
+import useUserRole from '../hooks/useUserRole';
+import { AuthContext } from '../Provider/AuthProvider';
 
 const AnnouncementPage = () => {
+    const { user } = useContext(AuthContext);
     const { role, isLoading: roleLoading } = useUserRole();
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [announcements, setAnnouncements] = useState([]);
 
-    // Fetch announcements
+    // Fetch announcements with token
     const fetchAnnouncements = async () => {
-        const res = await fetch('http://localhost:5000/announcements');
-        const data = await res.json();
-        setAnnouncements(data);
+        try {
+            const token = user && (await user.getIdToken());
+
+            const res = await fetch('http://localhost:5000/announcements', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            const data = await res.json();
+
+            if (Array.isArray(data)) {
+                setAnnouncements(data);
+            } else {
+                console.error('Expected announcements array but got:', data);
+                setAnnouncements([]);
+            }
+        } catch (error) {
+            console.error('Failed to fetch announcements:', error);
+            setAnnouncements([]);
+        }
     };
 
     useEffect(() => {
-        fetchAnnouncements();
-    }, []);
+        if (user) {
+            fetchAnnouncements();
+        }
+    }, [user]);
 
-    // Handle admin-only announcement creation
+    // Submit new announcement (admin only)
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -30,25 +52,33 @@ const AnnouncementPage = () => {
             createdBy: 'Admin',
         };
 
-        const res = await fetch('http://localhost:5000/announcements', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(announcement),
-        });
+        try {
+            const token = await user.getIdToken();
 
-        if (res.ok) {
-            Swal.fire('Success', 'Announcement posted', 'success');
-            setTitle('');
-            setDescription('');
-            fetchAnnouncements(); // refresh announcements
-        } else {
-            Swal.fire('Error', 'Failed to post announcement', 'error');
+            const res = await fetch('http://localhost:5000/announcements', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(announcement),
+            });
+
+            if (res.ok) {
+                Swal.fire('Success', 'Announcement posted', 'success');
+                setTitle('');
+                setDescription('');
+                fetchAnnouncements();
+            } else {
+                Swal.fire('Error', 'Failed to post announcement', 'error');
+            }
+        } catch (err) {
+            console.error('Failed to submit announcement:', err);
+            Swal.fire('Error', 'Something went wrong', 'error');
         }
     };
 
-    if (roleLoading) {
-        return <p>Loading role...</p>;
-    }
+    if (roleLoading) return <p>Loading role...</p>;
 
     return (
         <div className="p-6">

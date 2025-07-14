@@ -1,30 +1,51 @@
 import { useQuery } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 import useUserRole from '../hooks/useUserRole';
+import { useContext } from 'react';
+import { AuthContext } from '../Provider/AuthProvider';
 
 const AgreementRequests = () => {
+    const { user } = useContext(AuthContext);
     const { role, isLoading: roleLoading } = useUserRole();
+
+    const fetchAgreements = async () => {
+        const token = await user.getIdToken();
+
+        const res = await fetch('http://localhost:5000/agreements', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        const data = await res.json();
+
+        return data.agreements?.filter(req => req.status !== 'checked') || [];
+    };
 
     const { data: requests = [], refetch, isLoading } = useQuery({
         queryKey: ['agreements'],
-        queryFn: async () => {
-            const res = await fetch('http://localhost:5000/agreements');
-            const data = await res.json();
-            return data.agreements?.filter(req => req.status !== 'checked') || [];
-        },
-        enabled: role === 'admin'
+        queryFn: fetchAgreements,
+        enabled: role === 'admin' && !!user
     });
 
     const handleAccept = async (request) => {
+        const token = await user.getIdToken();
+
         const agreementUpdate = await fetch(`http://localhost:5000/agreements/${request._id}`, {
             method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
             body: JSON.stringify({ status: 'checked' })
         });
 
         const roleUpdate = await fetch(`http://localhost:5000/users/role/${request.userEmail}`, {
             method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
             body: JSON.stringify({ role: 'member' })
         });
 
@@ -37,9 +58,14 @@ const AgreementRequests = () => {
     };
 
     const handleReject = async (request) => {
+        const token = await user.getIdToken();
+
         const res = await fetch(`http://localhost:5000/agreements/${request._id}`, {
             method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
             body: JSON.stringify({ status: 'checked' })
         });
 

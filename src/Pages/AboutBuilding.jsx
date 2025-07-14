@@ -14,7 +14,7 @@ const AboutBuilding = () => {
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 1 }}
                 >
-                    <h2 className="text-4xl md:text-5xl font-bold text-teal-600 mb-6">
+                    <h2 className="text-3xl md:text-4xl font-bold text-teal-600 mb-6">
                         🏢 About the Building
                     </h2>
 
