@@ -19,7 +19,7 @@ const MakePayment = () => {
         const fetchAgreement = async () => {
             try {
                 const token = await getIdToken(user);
-                const res = await fetch(`http://localhost:5000/agreements/user/${user.email}`, {
+                const res = await fetch(`https://b11a12-server-side-rubayetalam21.vercel.app/agreements/user/${user.email}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -48,7 +48,7 @@ const MakePayment = () => {
         }
         setApplyingCoupon(true);
         try {
-            const res = await fetch(`http://localhost:5000/coupons/${coupon}`);
+            const res = await fetch(`https://b11a12-server-side-rubayetalam21.vercel.app/coupons/${coupon}`);
             if (!res.ok) throw new Error('Invalid or expired coupon');
             const data = await res.json();
             const discount = (agreement.rent * data.discountPercentage) / 100;

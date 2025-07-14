@@ -13,7 +13,7 @@ const PaymentHistory = () => {
 
             const token = await getIdToken(user); // ✅ Get token from Firebase
 
-            const res = await fetch(`http://localhost:5000/payments/${user.email}`, {
+            const res = await fetch(`https://b11a12-server-side-rubayetalam21.vercel.app/payments/${user.email}`, {
                 headers: {
                     Authorization: `Bearer ${token}` // ✅ Include Authorization header
                 }

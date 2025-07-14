@@ -10,7 +10,7 @@ const MemberProfile = () => {
         queryKey: ['memberProfile', user?.email],
         enabled: !!user?.email,
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/members/profile/${user.email}`);
+            const res = await fetch(`https://b11a12-server-side-rubayetalam21.vercel.app/members/profile/${user.email}`);
             if (!res.ok) throw new Error('Failed to fetch member profile');
             return res.json();
         },

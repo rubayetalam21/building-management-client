@@ -11,7 +11,7 @@ const AgreementRequests = () => {
     const fetchAgreements = async () => {
         const token = await user.getIdToken();
 
-        const res = await fetch('http://localhost:5000/agreements', {
+        const res = await fetch('https://b11a12-server-side-rubayetalam21.vercel.app/agreements', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -31,7 +31,7 @@ const AgreementRequests = () => {
     const handleAccept = async (request) => {
         const token = await user.getIdToken();
 
-        const agreementUpdate = await fetch(`http://localhost:5000/agreements/${request._id}`, {
+        const agreementUpdate = await fetch(`https://b11a12-server-side-rubayetalam21.vercel.app/agreements/${request._id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ const AgreementRequests = () => {
             body: JSON.stringify({ status: 'checked' })
         });
 
-        const roleUpdate = await fetch(`http://localhost:5000/users/role/${request.userEmail}`, {
+        const roleUpdate = await fetch(`https://b11a12-server-side-rubayetalam21.vercel.app/users/role/${request.userEmail}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ const AgreementRequests = () => {
     const handleReject = async (request) => {
         const token = await user.getIdToken();
 
-        const res = await fetch(`http://localhost:5000/agreements/${request._id}`, {
+        const res = await fetch(`https://b11a12-server-side-rubayetalam21.vercel.app/agreements/${request._id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',

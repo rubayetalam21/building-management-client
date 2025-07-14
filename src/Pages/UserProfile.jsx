@@ -8,7 +8,7 @@ const UserProfile = () => {
     const { data: dbUser = {} } = useQuery({
         queryKey: ['userRole', user?.email],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/users/${user?.email}`);
+            const res = await fetch(`https://b11a12-server-side-rubayetalam21.vercel.app/users/${user?.email}`);
             return res.json();
         },
         enabled: !!user?.email,

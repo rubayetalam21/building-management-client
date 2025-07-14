@@ -15,10 +15,10 @@ const AdminProfile = () => {
         const fetchStats = async () => {
             try {
                 const [aptRes, unavailRes, userRes, memberRes] = await Promise.all([
-                    fetch('http://localhost:5000/apartments/count'),
-                    fetch('http://localhost:5000/agreements/unavailable/count'),
-                    fetch('http://localhost:5000/users/users/count'),
-                    fetch('http://localhost:5000/users/members/count'),
+                    fetch('https://b11a12-server-side-rubayetalam21.vercel.app/apartments/count'),
+                    fetch('https://b11a12-server-side-rubayetalam21.vercel.app/agreements/unavailable/count'),
+                    fetch('https://b11a12-server-side-rubayetalam21.vercel.app/users/users/count'),
+                    fetch('https://b11a12-server-side-rubayetalam21.vercel.app/users/members/count'),
                 ]);
 
                 const totalApartments = await aptRes.json();

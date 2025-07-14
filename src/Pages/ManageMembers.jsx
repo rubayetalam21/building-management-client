@@ -8,7 +8,7 @@ const auth = getAuth(app);
 const ManageMembers = () => {
     const fetchMembers = async () => {
         const token = await auth.currentUser.getIdToken();
-        const res = await fetch('http://localhost:5000/users', {
+        const res = await fetch('https://b11a12-server-side-rubayetalam21.vercel.app/users', {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -38,7 +38,7 @@ const ManageMembers = () => {
         if (confirm.isConfirmed) {
             const token = await auth.currentUser.getIdToken();
 
-            const res = await fetch(`http://localhost:5000/users/${id}/role`, {
+            const res = await fetch(`https://b11a12-server-side-rubayetalam21.vercel.app/users/${id}/role`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',

@@ -12,7 +12,7 @@ const CouponSection = () => {
         queryFn: async () => {
             if (!user) throw new Error('User not authenticated');
             const token = await user.getIdToken();
-            const res = await fetch('http://localhost:5000/coupons', {
+            const res = await fetch('https://b11a12-server-side-rubayetalam21.vercel.app/coupons', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

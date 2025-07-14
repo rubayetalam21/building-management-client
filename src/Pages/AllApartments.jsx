@@ -16,7 +16,7 @@ const AllApartments = () => {
     const { data = {}, isLoading, isError, refetch } = useQuery({
         queryKey: ['apartments', page],
         queryFn: async () => {
-            const res = await fetch(`http://localhost:5000/apartments?page=${page}&limit=${limit}`);
+            const res = await fetch(`https://b11a12-server-side-rubayetalam21.vercel.app/apartments?page=${page}&limit=${limit}`);
             return res.json();
         }
     });
@@ -42,7 +42,7 @@ const AllApartments = () => {
             rent: apt.rent,
         };
 
-        const res = await fetch('http://localhost:5000/agreements', {
+        const res = await fetch('https://b11a12-server-side-rubayetalam21.vercel.app/agreements', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(agreementData),

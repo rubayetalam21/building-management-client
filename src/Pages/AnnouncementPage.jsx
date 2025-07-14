@@ -16,7 +16,7 @@ const AnnouncementPage = () => {
         try {
             const token = user && (await user.getIdToken());
 
-            const res = await fetch('http://localhost:5000/announcements', {
+            const res = await fetch('https://b11a12-server-side-rubayetalam21.vercel.app/announcements', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -55,7 +55,7 @@ const AnnouncementPage = () => {
         try {
             const token = await user.getIdToken();
 
-            const res = await fetch('http://localhost:5000/announcements', {
+            const res = await fetch('https://b11a12-server-side-rubayetalam21.vercel.app/announcements', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

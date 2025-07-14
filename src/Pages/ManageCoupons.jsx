@@ -11,7 +11,7 @@ const ManageCoupons = () => {
 
     const fetchCoupons = async () => {
         const token = await user.getIdToken();
-        const res = await fetch('http://localhost:5000/coupons', {
+        const res = await fetch('https://b11a12-server-side-rubayetalam21.vercel.app/coupons', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -35,7 +35,7 @@ const ManageCoupons = () => {
 
         const token = await user.getIdToken();
 
-        const res = await fetch('http://localhost:5000/coupons', {
+        const res = await fetch('https://b11a12-server-side-rubayetalam21.vercel.app/coupons', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ const ManageCoupons = () => {
 
         const token = await user.getIdToken();
 
-        const res = await fetch(`http://localhost:5000/coupons/${coupon._id}/availability`, {
+        const res = await fetch(`https://b11a12-server-side-rubayetalam21.vercel.app/coupons/${coupon._id}/availability`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

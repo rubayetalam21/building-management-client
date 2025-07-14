@@ -19,7 +19,7 @@ const CheckoutForm = () => {
         setProcessing(true);
 
         try {
-            const res = await fetch('http://localhost:5000/create-payment-intent', {
+            const res = await fetch('https://b11a12-server-side-rubayetalam21.vercel.app/create-payment-intent', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ amount: paymentInfo.rent })
@@ -40,7 +40,7 @@ const CheckoutForm = () => {
             if (error) {
                 Swal.fire('Payment failed', error.message, 'error');
             } else if (paymentIntent.status === 'succeeded') {
-                const saveRes = await fetch('http://localhost:5000/payments', {
+                const saveRes = await fetch('https://b11a12-server-side-rubayetalam21.vercel.app/payments', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
