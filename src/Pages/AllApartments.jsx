@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../Provider/AuthProvider';
@@ -11,24 +11,37 @@ const AllApartments = () => {
     const [page, setPage] = useState(1);
     const [minRent, setMinRent] = useState('');
     const [maxRent, setMaxRent] = useState('');
+    const [debouncedMinRent, setDebouncedMinRent] = useState('');
+    const [debouncedMaxRent, setDebouncedMaxRent] = useState('');
     const limit = 6;
 
+    // Debounce rent filters
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setDebouncedMinRent(minRent);
+            setDebouncedMaxRent(maxRent);
+            setPage(1); // Reset to page 1 on filter change
+        }, 500);
+
+        return () => clearTimeout(timeout);
+    }, [minRent, maxRent]);
+
     const { data = {}, isLoading, isError, refetch } = useQuery({
-        queryKey: ['apartments', page],
+        queryKey: ['apartments', page, debouncedMinRent, debouncedMaxRent],
         queryFn: async () => {
-            const res = await fetch(`https://b11a12-server-side-rubayetalam21.vercel.app/apartments?page=${page}&limit=${limit}`);
+            const queryParams = new URLSearchParams({
+                page,
+                limit,
+                minRent: debouncedMinRent || '0',
+                maxRent: debouncedMaxRent || '9999999',
+            });
+            const res = await fetch(`https://b11a12-server-side-rubayetalam21.vercel.app/apartments?${queryParams}`);
             return res.json();
         }
     });
 
     const apartments = Array.isArray(data?.apartments) ? data.apartments : [];
     const totalPages = data?.totalPages || 1;
-
-    const filteredApartments = apartments.filter((apt) => {
-        const min = parseInt(minRent) || 0;
-        const max = parseInt(maxRent) || Infinity;
-        return apt.rent >= min && apt.rent <= max;
-    });
 
     const handleAgreement = async (apt) => {
         if (!user) return navigate('/login');
@@ -62,10 +75,10 @@ const AllApartments = () => {
 
     return (
         <div className="p-6 max-w-6xl mx-auto">
-            <div className="max-w-6xl mx-auto text-center mb-12">
+            <div className="text-center mb-12">
                 <h2 className="text-4xl font-bold text-teal-600 mb-2">All Apartments</h2>
-
             </div>
+
             {/* Search by Rent */}
             <div className="flex gap-4 mb-6 items-end">
                 <div>
@@ -92,8 +105,8 @@ const AllApartments = () => {
 
             {/* Apartment Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {filteredApartments.length > 0 ? (
-                    filteredApartments.map((apt) => (
+                {apartments.length > 0 ? (
+                    apartments.map((apt) => (
                         <div key={apt.apartmentNo} className="shadow rounded-lg p-4 border">
                             <img src={apt.image} alt="Apartment" className="h-48 w-full object-cover rounded" />
                             <h2 className="text-lg font-semibold mt-2">Apartment {apt.apartmentNo}</h2>

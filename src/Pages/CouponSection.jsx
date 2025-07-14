@@ -1,31 +1,23 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { FaTag } from 'react-icons/fa';
 import { useQuery } from '@tanstack/react-query';
-import { AuthContext } from '../Provider/AuthProvider'; // Make sure this path is correct
 
 const CouponSection = () => {
-    const { user } = useContext(AuthContext);
-
     const { data: coupons = [], isLoading, error } = useQuery({
         queryKey: ['coupons'],
         queryFn: async () => {
-            if (!user) throw new Error('User not authenticated');
-            const token = await user.getIdToken();
-            const res = await fetch('https://b11a12-server-side-rubayetalam21.vercel.app/coupons', {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            if (!res.ok) throw new Error('Failed to fetch coupons');
+            const res = await fetch('https://b11a12-server-side-rubayetalam21.vercel.app/coupons');
             return res.json();
-        },
-        enabled: !!user, // Only run if user is logged in
+        }
     });
+
+
 
     if (isLoading) return <p className="text-center py-10">Loading coupons...</p>;
     if (error) return <p className="text-center text-red-500">Failed to load coupons</p>;
 
+    // Filter only available coupons
     const availableCoupons = coupons.filter(coupon => coupon.available);
 
     return (
@@ -49,7 +41,7 @@ const CouponSection = () => {
                             transition={{ duration: 0.5, delay: index * 0.2 }}
                             viewport={{ once: false }}
                             className={`bg-gradient-to-br ${coupon.bgColor || 'from-teal-500 to-cyan-600'} 
-                text-white p-6 rounded-xl shadow-lg relative overflow-hidden`}
+                  text-white p-6 rounded-xl shadow-lg relative overflow-hidden`}
                         >
                             <FaTag className="absolute top-4 right-4 text-2xl opacity-20" />
                             <h3 className="text-2xl font-bold mb-2">{coupon.title || coupon.couponCode}</h3>

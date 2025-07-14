@@ -3,16 +3,26 @@ import { AuthContext } from '../Provider/AuthProvider';
 import { useQuery } from '@tanstack/react-query';
 
 const UserProfile = () => {
-    const { user } = useContext(AuthContext);
+    const { user, loading } = useContext(AuthContext);
 
-    const { data: dbUser = {} } = useQuery({
+    // Handle loading state from AuthProvider
+    if (loading || !user) {
+        return <p className="text-center py-10">Loading user profile...</p>;
+    }
+
+    const { data: dbUser = {}, isLoading: userLoading } = useQuery({
         queryKey: ['userRole', user?.email],
         queryFn: async () => {
             const res = await fetch(`https://b11a12-server-side-rubayetalam21.vercel.app/users/${user?.email}`);
             return res.json();
         },
-        enabled: !!user?.email,
+        enabled: !user?.email,
     });
+
+    
+    if (userLoading) {
+        return <p className="text-center py-10">Fetching user data...</p>;
+    }
 
     return (
         <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
@@ -33,16 +43,16 @@ const UserProfile = () => {
 
             <div className="mt-6 space-y-2 text-gray-700">
                 <div>
-                    <strong>Agreement Accepted Date:</strong> <span>None</span>
+                    <strong>Agreement Accepted Date:</strong> <span>{dbUser?.agreementDate || 'None'}</span>
                 </div>
                 <div>
-                    <strong>Floor:</strong> <span>None</span>
+                    <strong>Floor:</strong> <span>{dbUser?.floor || 'None'}</span>
                 </div>
                 <div>
-                    <strong>Block:</strong> <span>None</span>
+                    <strong>Block:</strong> <span>{dbUser?.block || 'None'}</span>
                 </div>
                 <div>
-                    <strong>Room No:</strong> <span>None</span>
+                    <strong>Room No:</strong> <span>{dbUser?.apartmentNo || 'None'}</span>
                 </div>
             </div>
         </div>
