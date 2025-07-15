@@ -15,6 +15,7 @@ import {
   FaMoneyCheckAlt,
   FaHistory,
 } from 'react-icons/fa';
+import { Helmet } from 'react-helmet-async';
 
 const DashboardLayout = () => {
   const { user, loading } = useContext(AuthContext);
@@ -31,6 +32,9 @@ const DashboardLayout = () => {
 
   return (
     <div className="flex min-h-screen">
+      <Helmet>
+        <title>Dashboard</title>
+      </Helmet>
       {/* Sidebar */}
       <aside className="w-64 bg-gray-100 shadow-lg p-4 space-y-4">
         <div className="text-xl font-bold text-teal-600 mb-4">Dashboard</div>

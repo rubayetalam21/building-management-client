@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import userImage from "../assets/user.png";
+import userImage from '../assets/user.png';
 import { AuthContext } from '../Provider/AuthProvider';
 
 const Navbar = () => {
@@ -35,12 +35,17 @@ const Navbar = () => {
     };
 
     const navLinkStyle = ({ isActive }) =>
-        isActive ? 'text-teal-500 font-semibold underline' : 'text-gray-700 dark:text-gray-200 hover:underline';
+        `relative px-2 py-1 font-medium transition-all duration-300 ease-in-out group
+    ${isActive ? 'text-teal-500' : 'text-gray-800 dark:text-gray-200 hover:text-teal-500'}
+    after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px]
+    after:bg-teal-500 after:transition-all after:duration-300 group-hover:after:w-full`;
+
+
 
     return (
-        <nav className="bg-base-100 shadow px-4 py-3 mt-4 z-50 relative">
-            <div className="max-w-7xl mx-auto flex items-center justify-between">
-                <Link to="/" className="font-bold text-2xl text-teal-500">🏢 Building Management</Link>
+        <nav className="fixed top-0 left-0 w-full z-50 bg-white/30 dark:bg-gray-800/30 backdrop-blur-lg shadow-md border-b border-gray-200 dark:border-gray-700">
+            <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+                <Link to="/" className="font-bold text-2xl text-teal-600">🏢 Building Management</Link>
 
                 <div className="hidden md:flex items-center gap-6">
                     <div className="flex gap-6">
@@ -49,24 +54,25 @@ const Navbar = () => {
                     </div>
 
                     {/* Theme toggle */}
-                    <div className="form-control">
-                        <label className="label cursor-pointer gap-2">
-                            <span className="text-sm text-gray-600 dark:text-gray-600">
-                                {theme === 'dark' ? 'Dark' : 'Light'} Mode
-                            </span>
-                            <input
-                                type="checkbox"
-                                className="toggle toggle-primary"
-                                onChange={toggleTheme}
-                                checked={theme === 'dark'}
-                            />
-                        </label>
-                    </div>
+                    <label className="label cursor-pointer gap-2">
+                        <span className="text-sm text-gray-800 dark:text-gray-200">
+                            {theme === 'dark' ? 'Dark' : 'Light'} Mode
+                        </span>
+                        <input
+                            type="checkbox"
+                            className="toggle toggle-primary"
+                            onChange={toggleTheme}
+                            checked={theme === 'dark'}
+                        />
+                    </label>
 
-                    {/* Profile Section */}
+                    {/* Profile Dropdown */}
                     <div className="relative">
                         {user ? (
-                            <div className="cursor-pointer" onClick={() => setDropdownOpen(!dropdownOpen)}>
+                            <div
+                                className="cursor-pointer"
+                                onClick={() => setDropdownOpen(!dropdownOpen)}
+                            >
                                 <img
                                     className="w-10 h-10 rounded-full border"
                                     src={user.photoURL || userImage}
@@ -74,25 +80,25 @@ const Navbar = () => {
                                 />
                             </div>
                         ) : (
-                            <Link to="/auth/login" className="btn bg-teal-500 text-black px-6">Login</Link>
+                            <Link to="/auth/login" className="btn bg-teal-500 text-white px-6">Login</Link>
                         )}
 
                         {/* Dropdown */}
                         {user && dropdownOpen && (
-                            <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg border z-50">
-                                <div className="p-3 text-gray-800 font-semibold border-b">
+                            <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-900 shadow-lg rounded-lg border z-50 animate-fade-in">
+                                <div className="p-3 text-gray-800 dark:text-gray-200 font-semibold border-b">
                                     {user.displayName || "User"}
                                 </div>
                                 <Link
                                     to="/dashboard"
-                                    className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                                    className="block px-4 py-2 text-gray-700 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800"
                                     onClick={() => setDropdownOpen(false)}
                                 >
                                     Dashboard
                                 </Link>
                                 <button
                                     onClick={handleLogOut}
-                                    className="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
+                                    className="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100 dark:hover:bg-gray-800"
                                 >
                                     Logout
                                 </button>
@@ -102,20 +108,22 @@ const Navbar = () => {
                 </div>
 
                 {/* Mobile toggle button */}
-                <button className="md:hidden text-2xl" onClick={() => setIsOpen(!isOpen)}>
+                <button className="md:hidden text-2xl text-gray-700 dark:text-gray-200" onClick={() => setIsOpen(!isOpen)}>
                     ☰
                 </button>
             </div>
 
-            {/* Mobile dropdown menu */}
+            {/* Mobile Dropdown */}
             {isOpen && (
-                <div className="md:hidden mt-3 space-y-2 flex flex-col">
+                <div className="md:hidden bg-white/80 dark:bg-gray-900/80 backdrop-blur-md px-4 py-3 space-y-2">
                     <NavLink to="/" className={navLinkStyle}>Home</NavLink>
                     <NavLink to="/apartments" className={navLinkStyle}>Apartments</NavLink>
 
-                    {/* Theme toggle */}
-                    <label className="label cursor-pointer gap-2 px-4">
-                        <span className="text-sm">{theme === 'dark' ? 'Dark' : 'Light'} Mode</span>
+                    {/* Theme Toggle */}
+                    <label className="label cursor-pointer gap-2">
+                        <span className="text-sm text-gray-800 dark:text-gray-200">
+                            {theme === 'dark' ? 'Dark' : 'Light'} Mode
+                        </span>
                         <input
                             type="checkbox"
                             className="toggle toggle-primary"
@@ -124,18 +132,19 @@ const Navbar = () => {
                         />
                     </label>
 
-                    {/* Auth section mobile */}
-                    <div className="flex items-center gap-3 mt-4 px-4">
+                    {/* User Info */}
+                    <div className="flex items-center gap-3 mt-4">
                         <img className="w-10 h-10 rounded-full border" src={user?.photoURL || userImage} alt="User" />
-                        <span>{user?.displayName || "Guest"}</span>
+                        <span className="text-gray-900 dark:text-white">{user?.displayName || "Guest"}</span>
                     </div>
+
                     {user ? (
                         <>
                             <Link to="/dashboard" className="btn w-full mt-2">Dashboard</Link>
                             <button onClick={handleLogOut} className="btn btn-error w-full mt-2">LogOut</button>
                         </>
                     ) : (
-                        <Link to="/auth/login" className="btn btn-primary w-full mt-2 text-gray-900">Login</Link>
+                        <Link to="/auth/login" className="btn btn-primary w-full mt-2">Login</Link>
                     )}
                 </div>
             )}

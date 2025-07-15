@@ -3,6 +3,7 @@ import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../Provider/AuthProvider';
+import { Helmet } from 'react-helmet-async';
 
 const AllApartments = () => {
     const { user } = useContext(AuthContext);
@@ -74,7 +75,10 @@ const AllApartments = () => {
     if (isError) return <p className="text-center py-10 text-red-500">Failed to load apartments.</p>;
 
     return (
-        <div className="p-6 max-w-6xl mx-auto">
+        <div className="p-6 max-w-6xl mx-auto mt-16">
+            <Helmet>
+                <title>Apartments</title>
+            </Helmet>
             <div className="text-center mb-12">
                 <h2 className="text-4xl font-bold text-teal-600 mb-2">All Apartments</h2>
             </div>

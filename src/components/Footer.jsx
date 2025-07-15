@@ -1,51 +1,62 @@
 import React from 'react';
-import { FaYoutube } from "react-icons/fa";
-import { FaLinkedin } from "react-icons/fa";
-import { FaFacebook } from "react-icons/fa";
-import { NavLink } from 'react-router';
+import { FaYoutube, FaLinkedin, FaFacebook } from 'react-icons/fa';
+import { NavLink } from 'react-router-dom';
 
 const Footer = () => {
-
     const navLinkStyle = ({ isActive }) =>
-        isActive
-            ? 'text-teal-500 font-semibold underline'
-            : 'text-gray-700 hover:underline';
+        `relative px-2 py-1 transition-all duration-300 ease-in-out group
+        ${isActive ? 'text-teal-600 font-semibold' : 'text-gray-700 hover:text-teal-600'}
+        after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px]
+        after:bg-teal-500 after:transition-all after:duration-300 group-hover:after:w-full`;
 
     return (
-        <footer className=" w-11/12 mx-auto flex items-center justify-center flex-col gap-5 bg-base-200 text-base-content py-4 rounded p-2 my-5">
+        <footer className="bg-gray-100 text-gray-800 py-6 px-6 rounded-xl mt-10 shadow-inner border border-gray-200">
+            <div className="max-w-6xl mx-auto flex flex-col items-center gap-4">
 
-            <div className='flex flew-row'>
-                <a className="text-2xl font-bold text-teal-500">Building Management</a>
-            </div>
+                {/* Brand Name */}
+                <div>
+                    <a className="text-2xl font-bold text-teal-600">🏢 Building Management</a>
+                </div>
 
-            <div className="flex flex-col md:flex-row gap-4 md:gap-10 text-center md:text-left">
-                <NavLink to="/" className={navLinkStyle}>Home</NavLink>
-                <NavLink to="/apartments" className={navLinkStyle}>Apartments</NavLink>
-                
-            </div>
+                {/* Navigation Links */}
+                <div className="flex flex-wrap justify-center gap-5 text-base">
+                    <NavLink to="/" className={navLinkStyle}>Home</NavLink>
+                    <NavLink to="/apartments" className={navLinkStyle}>Apartments</NavLink>
+                </div>
 
-
-            <nav>
-                <div className="grid grid-flow-col gap-4">
-                    <a className='flex justify-center items-center rounded-full w-10 h-10 border' href="https://www.facebook.com/rubayetalam21/"
+                {/* Social Icons */}
+                <div className="flex gap-5 mt-3">
+                    <a
+                        href="https://www.facebook.com/rubayetalam21/"
                         target="_blank"
-                        rel="noopener noreferrer">
+                        rel="noopener noreferrer"
+                        className="text-lg text-gray-600 hover:text-blue-600 transition duration-300 p-2 rounded-full bg-white hover:bg-blue-50 shadow-sm"
+                    >
                         <FaFacebook />
                     </a>
-                    <a className='flex justify-center items-center rounded-full w-10 h-10 border' href="https://www.youtube.com/@shahmuhammadrubayetalam4747"
+                    <a
+                        href="https://www.youtube.com/@shahmuhammadrubayetalam4747"
                         target="_blank"
-                        rel="noopener noreferrer">
+                        rel="noopener noreferrer"
+                        className="text-lg text-gray-600 hover:text-red-600 transition duration-300 p-2 rounded-full bg-white hover:bg-red-50 shadow-sm"
+                    >
                         <FaYoutube />
-
                     </a>
-                    <a className='flex justify-center items-center rounded-full w-10 h-10 border' href="https://www.linkedin.com/in/smrubayetalam/"
+                    <a
+                        href="https://www.linkedin.com/in/smrubayetalam/"
                         target="_blank"
-                        rel="noopener noreferrer">
+                        rel="noopener noreferrer"
+                        className="text-lg text-gray-600 hover:text-blue-500 transition duration-300 p-2 rounded-full bg-white hover:bg-blue-50 shadow-sm"
+                    >
                         <FaLinkedin />
                     </a>
                 </div>
-            </nav>
 
+                {/* Footer Bottom */}
+                <div className="text-xs text-gray-500 mt-3">
+                    © {new Date().getFullYear()} Home Arc / Building Management. All rights reserved.
+                </div>
+            </div>
         </footer>
     );
 };

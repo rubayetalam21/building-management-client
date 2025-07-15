@@ -9,7 +9,7 @@ const LocationSection = () => {
     const googleMapsURL = `https://www.google.com/maps/dir/?api=1&destination=${position[0]},${position[1]}`;
 
     return (
-        <section className="py-20 bg-gradient-to-br from-gray-100 to-white dark:from-gray-900 dark:to-gray-800 px-4 sm:px-8">
+        <section className="py-20 rounded-lg bg-gradient-to-br from-gray-100 to-white dark:from-gray-900 dark:to-gray-800 px-4 sm:px-8">
             <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
 
                 {/* Text Info */}
