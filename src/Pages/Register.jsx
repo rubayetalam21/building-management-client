@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../Provider/AuthProvider';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
+import { motion } from 'framer-motion';
 
 const Register = () => {
     const { createUser, setUser, updateUser } = useContext(AuthContext);
@@ -20,15 +21,11 @@ const Register = () => {
         const email = form.email.value;
         const password = form.password.value;
 
-        // Validate name
         if (name.length < 5) {
             setNameError('Name should be more than 5 characters');
             return;
-        } else {
-            setNameError('');
-        }
+        } else setNameError('');
 
-        // Validate password
         const hasUppercase = /[A-Z]/.test(password);
         const hasLowercase = /[a-z]/.test(password);
         const isLongEnough = password.length >= 6;
@@ -38,100 +35,125 @@ const Register = () => {
                 'Password must contain at least 1 uppercase letter, 1 lowercase letter, and be at least 6 characters long.'
             );
             return;
-        } else {
-            setPasswordError('');
-        }
+        } else setPasswordError('');
 
-        // Create user in Firebase
         createUser(email, password)
             .then((result) => {
                 const user = result.user;
-
-                // Update displayName and photo in Firebase
                 updateUser({ displayName: name, photoURL: photo })
                     .then(async () => {
                         setUser({ ...user, displayName: name, photoURL: photo });
-
-                        // Save user to MongoDB
-                        const savedUser = {
-                            name,
-                            email,
-                            photoURL: photo,
-                        };
-
                         await fetch('https://b11a12-server-side-rubayetalam21.vercel.app/users', {
                             method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify(savedUser),
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ name, email, photoURL: photo }),
                         });
-
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Registration',
-                            text: 'You have been successfully registered!',
-                        });
+                        Swal.fire({ icon: 'success', title: 'Registration Complete', text: 'Welcome!' });
                         navigate('/');
                     })
-                    .catch((error) => {
-                        console.error('Profile update failed:', error);
-                        setUser(user); // fallback set
+                    .catch((err) => {
+                        console.error('Profile update failed:', err);
+                        setUser(user);
                     });
             })
-            .catch((error) => {
-                alert(error.message);
+            .catch((err) => {
+                alert(err.message);
             });
     };
 
+    // Animation variants
+    const fieldVariant = {
+        hidden: { opacity: 0, y: 20 },
+        visible: (i) => ({
+            opacity: 1,
+            y: 0,
+            transition: {
+                delay: i * 0.15,
+                duration: 0.5,
+                ease: 'easeOut',
+            }
+        }),
+        shake: {
+            x: [0, -8, 8, -8, 8, 0],
+            transition: { duration: 0.4 }
+        }
+    };
+
     return (
-        <div className="flex justify-center min-h-screen items-center bg-gray-50">
-            <Helmet>
-                <title>Home | Register</title>
-            </Helmet>
-            <div className="card bg-white w-full max-w-sm shadow-2xl py-5 px-6 rounded-lg">
-                <h2 className="font-semibold text-2xl text-center text-gray-700">Register your account</h2>
-                <form onSubmit={handleRegister} className="card-body space-y-2">
-                    <label className="label">Name</label>
-                    <input name="name" type="text" className="input input-bordered w-full" placeholder="Name" required />
-                    {nameError && <p className="text-xs text-error">{nameError}</p>}
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-cyan-100 via-white to-teal-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4">
+            <Helmet><title>Register | Home</title></Helmet>
 
-                    <label className="label">Photo URL</label>
-                    <input name="photo" type="text" className="input input-bordered w-full" placeholder="Photo URL" required />
+            <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="bg-white/90 dark:bg-gray-800/80 backdrop-blur-md p-8 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 w-full max-w-sm"
+            >
+                <h2 className="text-center text-3xl font-bold text-teal-600 dark:text-teal-400 mb-6">Create Account</h2>
 
-                    <label className="label">Email</label>
-                    <input name="email" type="email" className="input input-bordered w-full" placeholder="Email" required />
+                <form onSubmit={handleRegister} className="space-y-4">
+                    <motion.div
+                        custom={0}
+                        initial="hidden"
+                        animate={nameError ? "shake" : "visible"}
+                        variants={fieldVariant}
+                    >
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+                        <input name="name" type="text" className="input input-bordered w-full mt-1" required />
+                        {nameError && <p className="text-xs text-error">{nameError}</p>}
+                    </motion.div>
 
-                    <label className="label">Password</label>
-                    <div className="relative">
-                        <input
-                            name="password"
-                            type={showPassword ? 'text' : 'password'}
-                            className="input input-bordered w-full pr-10"
-                            placeholder="Password"
-                            required
-                        />
-                        <span
-                            className="absolute right-3 top-3 text-xl cursor-pointer"
-                            onClick={() => setShowPassword(!showPassword)}
-                        >
-                            {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
-                        </span>
-                    </div>
-                    {passwordError && <p className="text-xs text-error">{passwordError}</p>}
+                    <motion.div custom={1} initial="hidden" animate="visible" variants={fieldVariant}>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Photo URL</label>
+                        <input name="photo" type="text" className="input input-bordered w-full mt-1" required />
+                    </motion.div>
 
-                    <button type="submit" className="btn btn-neutral w-full mt-4">
+                    <motion.div custom={2} initial="hidden" animate="visible" variants={fieldVariant}>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+                        <input name="email" type="email" className="input input-bordered w-full mt-1" required />
+                    </motion.div>
+
+                    <motion.div
+                        custom={3}
+                        initial="hidden"
+                        animate={passwordError ? "shake" : "visible"}
+                        variants={fieldVariant}
+                    >
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                        <div className="relative">
+                            <input
+                                name="password"
+                                type={showPassword ? "text" : "password"}
+                                className="input input-bordered w-full mt-1 pr-10"
+                                required
+                            />
+                            <span
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-3 text-xl cursor-pointer text-gray-600 dark:text-gray-300"
+                            >
+                                {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+                            </span>
+                        </div>
+                        {passwordError && <p className="text-xs text-error">{passwordError}</p>}
+                    </motion.div>
+
+                    <motion.button
+                        type="submit"
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="btn bg-gradient-to-r from-teal-500 to-cyan-500 text-white w-full mt-4"
+                    >
                         Register
-                    </button>
+                    </motion.button>
 
-                    <p className="text-sm text-center pt-4">
+                    <p className="text-sm text-center text-gray-600 dark:text-gray-300 pt-4">
                         Already have an account?{' '}
-                        <Link className="text-secondary font-medium" to="/auth/login">
+                        <Link className="text-blue-600 dark:text-blue-400 font-medium hover:underline" to="/auth/login">
                             Login
                         </Link>
                     </p>
                 </form>
-            </div>
+            </motion.div>
         </div>
     );
 };
