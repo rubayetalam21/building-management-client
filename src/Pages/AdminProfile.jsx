@@ -7,45 +7,32 @@ import { motion } from 'framer-motion';
 
 const AdminProfile = () => {
     const { user } = useContext(AuthContext);
-    const [stats, setStats] = useState({
-        totalApartments: 0,
-        availableApartments: 0,
-        agreementApartments: 0,
-        totalUsers: 0,
-        totalMembers: 0,
-    });
+    const [stats, setStats] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                const [aptRes, unavailRes, userRes, memberRes] = await Promise.all([
-                    fetch('https://b11a12-server-side-rubayetalam21.vercel.app/apartments/count'),
-                    fetch('https://b11a12-server-side-rubayetalam21.vercel.app/agreements/unavailable/count'),
-                    fetch('https://b11a12-server-side-rubayetalam21.vercel.app/users/users/count'),
-                    fetch('https://b11a12-server-side-rubayetalam21.vercel.app/users/members/count'),
-                ]);
-
-                const totalApartments = await aptRes.json();
-                const agreementApartments = await unavailRes.json();
-                const totalUsers = await userRes.json();
-                const totalMembers = await memberRes.json();
-
-                const calculatedAvailable = (totalApartments.count || 0) - (agreementApartments.count || 0);
-
-                setStats({
-                    totalApartments: totalApartments.count || 0,
-                    availableApartments: calculatedAvailable < 0 ? 0 : calculatedAvailable,
-                    agreementApartments: agreementApartments.count || 0,
-                    totalUsers: totalUsers.count || 0,
-                    totalMembers: totalMembers.count || 0,
-                });
+                const res = await fetch('https://b11a12-server-side-rubayetalam21.vercel.app/admin/stats');
+                const data = await res.json();
+                setStats(data);
+                setLoading(false);
             } catch (err) {
                 console.error('Failed to fetch admin stats:', err);
+                setLoading(false);
             }
         };
 
         fetchStats();
     }, []);
+
+    if (loading || !stats) {
+        return (
+            <div className="flex justify-center items-center h-[60vh]">
+                <p className="text-lg font-semibold text-gray-600 dark:text-gray-300 animate-pulse">Loading Admin Stats...</p>
+            </div>
+        );
+    }
 
     const availablePercentage = stats.totalApartments
         ? ((stats.availableApartments / stats.totalApartments) * 100).toFixed(1)
@@ -64,14 +51,19 @@ const AdminProfile = () => {
     ];
 
     return (
-        <div className="max-w-4xl mx-auto mt-10 bg-white dark:bg-gray-900 p-6 rounded shadow text-gray-800 dark:text-gray-200">
+        <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-4xl mx-auto mt-10 bg-white dark:bg-gray-900 p-6 rounded shadow text-gray-800 dark:text-gray-200"
+        >
             <h2 className="text-2xl font-bold mb-6 text-teal-600 dark:text-teal-400">Admin Profile</h2>
 
             <div className="flex items-center gap-6 mb-6">
                 <img
                     src={user?.photoURL || '/default-avatar.png'}
                     alt="Admin"
-                    className="w-24 h-24 rounded-full border"
+                    className="w-24 h-24 rounded-full border object-cover"
                 />
                 <div>
                     <h3 className="text-xl font-semibold">{user?.displayName || 'Admin'}</h3>
@@ -83,18 +75,18 @@ const AdminProfile = () => {
                 {statsData.map((item, i) => (
                     <motion.div
                         key={i}
-                        initial={{ opacity: 0, y: 40 }}
+                        initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.15, duration: 0.5 }}
-                        className="p-4 border rounded shadow bg-white dark:bg-gray-800"
+                        transition={{ delay: i * 0.1 }}
+                        className="p-4 border rounded shadow bg-white dark:bg-gray-800 hover:shadow-lg transition-all"
                     >
                         <div className="mb-2 flex justify-center">{item.icon}</div>
                         <p className="text-xl font-bold">{item.value}</p>
-                        <p>{item.label}</p>
+                        <p className="text-gray-600 dark:text-gray-300">{item.label}</p>
                     </motion.div>
                 ))}
             </div>
-        </div>
+        </motion.div>
     );
 };
 
