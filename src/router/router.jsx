@@ -23,6 +23,7 @@ import MakePayment from "../Pages/MakePayment";
 import Payment from "../Pages/Payment/Payment";
 import PaymentHistory from "../Pages/PaymentHistory";
 import AdminProfile from "../Pages/AdminProfile";
+import AvailableApartments from "../Pages/AvailableApartments";
 
 
 
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
             {
                 path: '/apartments',
                 element: <AllApartments></AllApartments>
+            },
+            {
+                path: '/availableApartments',
+                element: <AvailableApartments></AvailableApartments>
             }
 
         ],

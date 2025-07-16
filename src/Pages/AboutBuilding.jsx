@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router';
 
 const AboutBuilding = () => {
     return (
@@ -40,12 +41,12 @@ const AboutBuilding = () => {
                         transition={{ duration: 0.6, delay: 0.4 }}
                         viewport={{ once: true }}
                     >
-                        <a
-                            href="#apartments"
+                        <Link
+                            to="/availableApartments"
                             className="inline-block px-8 py-4 font-semibold text-white bg-gradient-to-r from-teal-500 to-cyan-500 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-cyan-300"
                         >
                             View Available Apartments
-                        </a>
+                        </Link>
                     </motion.div>
                 </motion.div>
 
