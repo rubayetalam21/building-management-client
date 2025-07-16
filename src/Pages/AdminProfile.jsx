@@ -1,8 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../Provider/AuthProvider';
-import { MdApartment, MdGroups, MdPeopleAlt } from 'react-icons/md';
+import { MdApartment, MdGroups } from 'react-icons/md';
 import { AiOutlineUser } from 'react-icons/ai';
 import { FaHandshake } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
 const AdminProfile = () => {
     const { user } = useContext(AuthContext);
@@ -54,6 +55,14 @@ const AdminProfile = () => {
         ? ((stats.agreementApartments / stats.totalApartments) * 100).toFixed(1)
         : 0;
 
+    const statsData = [
+        { icon: <MdApartment className="text-3xl text-teal-500" />, label: 'Total Apartments', value: stats.totalApartments },
+        { icon: <MdApartment className="text-3xl text-green-500" />, label: 'Available Apartments', value: `${availablePercentage}%` },
+        { icon: <FaHandshake className="text-3xl text-yellow-500" />, label: 'Agreement Apartments', value: `${agreementPercentage}%` },
+        { icon: <AiOutlineUser className="text-3xl text-purple-500" />, label: 'Total Users', value: stats.totalUsers },
+        { icon: <MdGroups className="text-3xl text-pink-500" />, label: 'Members', value: stats.totalMembers },
+    ];
+
     return (
         <div className="max-w-4xl mx-auto mt-10 bg-white dark:bg-gray-900 p-6 rounded shadow text-gray-800 dark:text-gray-200">
             <h2 className="text-2xl font-bold mb-6 text-teal-600 dark:text-teal-400">Admin Profile</h2>
@@ -71,35 +80,19 @@ const AdminProfile = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-center">
-                <div className="p-4 border rounded shadow bg-white dark:bg-gray-800">
-                    <MdApartment className="text-3xl text-teal-500 mx-auto mb-2" />
-                    <p className="text-xl font-bold">{stats.totalApartments}</p>
-                    <p>Total Apartments</p>
-                </div>
-
-                <div className="p-4 border rounded shadow bg-white dark:bg-gray-800">
-                    <MdApartment className="text-3xl text-green-500 mx-auto mb-2" />
-                    <p className="text-xl font-bold">{availablePercentage}%</p>
-                    <p>Available Apartments</p>
-                </div>
-
-                <div className="p-4 border rounded shadow bg-white dark:bg-gray-800">
-                    <FaHandshake className="text-3xl text-yellow-500 mx-auto mb-2" />
-                    <p className="text-xl font-bold">{agreementPercentage}%</p>
-                    <p>Agreement Apartments</p>
-                </div>
-
-                <div className="p-4 border rounded shadow bg-white dark:bg-gray-800">
-                    <AiOutlineUser className="text-3xl text-purple-500 mx-auto mb-2" />
-                    <p className="text-xl font-bold">{stats.totalUsers}</p>
-                    <p>Total Users</p>
-                </div>
-
-                <div className="p-4 border rounded shadow bg-white dark:bg-gray-800">
-                    <MdGroups className="text-3xl text-pink-500 mx-auto mb-2" />
-                    <p className="text-xl font-bold">{stats.totalMembers}</p>
-                    <p>Members</p>
-                </div>
+                {statsData.map((item, i) => (
+                    <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 40 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: i * 0.15, duration: 0.5 }}
+                        className="p-4 border rounded shadow bg-white dark:bg-gray-800"
+                    >
+                        <div className="mb-2 flex justify-center">{item.icon}</div>
+                        <p className="text-xl font-bold">{item.value}</p>
+                        <p>{item.label}</p>
+                    </motion.div>
+                ))}
             </div>
         </div>
     );
