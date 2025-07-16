@@ -56,104 +56,120 @@ const Register = () => {
                         setUser(user);
                     });
             })
-            .catch((err) => {
-                alert(err.message);
-            });
+            .catch((err) => alert(err.message));
     };
 
-    // Animation variants
     const fieldVariant = {
         hidden: { opacity: 0, y: 20 },
         visible: (i) => ({
             opacity: 1,
             y: 0,
-            transition: {
-                delay: i * 0.15,
-                duration: 0.5,
-                ease: 'easeOut',
-            }
+            transition: { delay: i * 0.15, duration: 0.5, ease: 'easeOut' },
         }),
         shake: {
             x: [0, -8, 8, -8, 8, 0],
-            transition: { duration: 0.4 }
-        }
+            transition: { duration: 0.4 },
+        },
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-cyan-100 via-white to-teal-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4">
+        <div className="min-h-screen px-16 py-8 bg-gradient-to-br from-cyan-100 via-white to-teal-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center">
             <Helmet><title>Register | Home</title></Helmet>
 
-            <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="bg-white/90 dark:bg-gray-800/80 backdrop-blur-md p-8 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 w-full max-w-sm"
-            >
-                <h2 className="text-center text-3xl font-bold text-teal-600 dark:text-teal-400 mb-6">Create Account</h2>
+            <div className="grid md:grid-cols-2 gap-0 bg-white/80 dark:bg-gray-800/80 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden max-w-6xl w-full">
 
-                <form onSubmit={handleRegister} className="space-y-4">
-                    <motion.div
-                        custom={0}
-                        initial="hidden"
-                        animate={nameError ? "shake" : "visible"}
-                        variants={fieldVariant}
+                {/* Left Welcome Panel */}
+                <motion.div
+                    className="hidden md:flex flex-col justify-center items-center px-10 py-16 bg-gradient-to-tr from-cyan-400 to-teal-500 text-white text-center relative"
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6 }}
+                >
+                    <motion.h2
+                        className="text-4xl font-extrabold mb-4 drop-shadow-lg"
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
                     >
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
-                        <input name="name" type="text" className="input input-bordered w-full mt-1" required />
-                        {nameError && <p className="text-xs text-error">{nameError}</p>}
-                    </motion.div>
-
-                    <motion.div custom={1} initial="hidden" animate="visible" variants={fieldVariant}>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Photo URL</label>
-                        <input name="photo" type="text" className="input input-bordered w-full mt-1" required />
-                    </motion.div>
-
-                    <motion.div custom={2} initial="hidden" animate="visible" variants={fieldVariant}>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
-                        <input name="email" type="email" className="input input-bordered w-full mt-1" required />
-                    </motion.div>
-
-                    <motion.div
-                        custom={3}
-                        initial="hidden"
-                        animate={passwordError ? "shake" : "visible"}
-                        variants={fieldVariant}
+                        Join Home Arc Today!
+                    </motion.h2>
+                    <motion.p
+                        className="text-lg max-w-md leading-relaxed"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
                     >
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
-                        <div className="relative">
-                            <input
-                                name="password"
-                                type={showPassword ? "text" : "password"}
-                                className="input input-bordered w-full mt-1 pr-10"
-                                required
-                            />
-                            <span
-                                onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-3 top-3 text-xl cursor-pointer text-gray-600 dark:text-gray-300"
-                            >
-                                {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
-                            </span>
-                        </div>
-                        {passwordError && <p className="text-xs text-error">{passwordError}</p>}
-                    </motion.div>
+                        Create an account to start your journey — explore properties, manage agreements, and enjoy a smarter living experience.
+                    </motion.p>
 
-                    <motion.button
-                        type="submit"
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="btn bg-gradient-to-r from-teal-500 to-cyan-500 text-white w-full mt-4"
-                    >
-                        Register
-                    </motion.button>
+                    {/* Decorative Blurs */}
+                    <div className="absolute -top-10 -left-10 w-32 h-32 bg-white/20 rounded-full blur-2xl"></div>
+                    <div className="absolute -bottom-10 -right-10 w-24 h-24 bg-white/20 rounded-full blur-xl"></div>
+                </motion.div>
 
-                    <p className="text-sm text-center text-gray-600 dark:text-gray-300 pt-4">
-                        Already have an account?{' '}
-                        <Link className="text-blue-600 dark:text-blue-400 font-medium hover:underline" to="/auth/login">
-                            Login
-                        </Link>
-                    </p>
-                </form>
-            </motion.div>
+                {/* Right Form Section */}
+                <motion.div
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="p-8 w-full"
+                >
+                    <h2 className="text-center text-3xl font-bold text-teal-600 dark:text-teal-400 mb-6">Create Account</h2>
+
+                    <form onSubmit={handleRegister} className="space-y-4">
+                        <motion.div custom={0} initial="hidden" animate={nameError ? 'shake' : 'visible'} variants={fieldVariant}>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+                            <input name="name" type="text" className="input input-bordered w-full mt-1" required />
+                            {nameError && <p className="text-xs text-error">{nameError}</p>}
+                        </motion.div>
+
+                        <motion.div custom={1} initial="hidden" animate="visible" variants={fieldVariant}>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Photo URL</label>
+                            <input name="photo" type="text" className="input input-bordered w-full mt-1" required />
+                        </motion.div>
+
+                        <motion.div custom={2} initial="hidden" animate="visible" variants={fieldVariant}>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+                            <input name="email" type="email" className="input input-bordered w-full mt-1" required />
+                        </motion.div>
+
+                        <motion.div custom={3} initial="hidden" animate={passwordError ? 'shake' : 'visible'} variants={fieldVariant}>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                            <div className="relative">
+                                <input
+                                    name="password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    className="input input-bordered w-full mt-1 pr-10"
+                                    required
+                                />
+                                <span
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-3 top-3 text-xl cursor-pointer text-gray-600 dark:text-gray-300"
+                                >
+                                    {showPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+                                </span>
+                            </div>
+                            {passwordError && <p className="text-xs text-error">{passwordError}</p>}
+                        </motion.div>
+
+                        <motion.button
+                            type="submit"
+                            whileHover={{ scale: 1.03 }}
+                            whileTap={{ scale: 0.98 }}
+                            className="btn bg-gradient-to-r from-teal-500 to-cyan-500 text-white w-full mt-4"
+                        >
+                            Register
+                        </motion.button>
+
+                        <p className="text-sm text-center text-gray-600 dark:text-gray-300 pt-4">
+                            Already have an account?{' '}
+                            <Link className="text-blue-600 dark:text-blue-400 font-medium hover:underline" to="/auth/login">
+                                Login
+                            </Link>
+                        </p>
+                    </form>
+                </motion.div>
+            </div>
         </div>
     );
 };

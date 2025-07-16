@@ -68,118 +68,160 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-teal-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center px-4">
+        <div className="min-h-screen bg-gradient-to-br from-teal-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center p-16">
             <Helmet>
                 <title>Login | Home</title>
             </Helmet>
 
-            <motion.div
-                className="backdrop-blur-xl bg-white/80 dark:bg-gray-800/80 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 p-8 w-full max-w-sm transition-all duration-300 hover:shadow-3xl"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-            >
-                <h2 className="text-center text-3xl font-bold text-teal-600 dark:text-teal-400 mb-6">
-                    Welcome Back
-                </h2>
+            <div className="grid md:grid-cols-2 gap-0 bg-white/80 dark:bg-gray-800/80 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden max-w-6xl w-full">
 
-                <form onSubmit={handleLogin} className="space-y-4">
-                    {/* Email Field */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.4, delay: 0.1 }}
+                {/* Left - Welcome Message Section */}
+                <motion.div
+                    className="hidden md:flex flex-col justify-center items-center px-10 py-16 bg-gradient-to-tr from-cyan-400 to-teal-500 text-white text-center relative"
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6 }}
+                >
+                    <motion.h2
+                        className="text-4xl font-extrabold mb-4 drop-shadow-lg"
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
                     >
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">Email</label>
-                        <input
-                            name="email"
-                            type="email"
-                            className="input input-bordered w-full mt-1"
-                            placeholder="example@email.com"
-                            required
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                    </motion.div>
+                        Welcome Back!
+                    </motion.h2>
 
-                    {/* Password Field */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.4, delay: 0.2 }}
-                    >
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">Password</label>
-                        <input
-                            name="password"
-                            type="password"
-                            className="input input-bordered w-full mt-1"
-                            placeholder="********"
-                            required
-                        />
-                    </motion.div>
-
-                    {/* Forgot password */}
-                    <motion.div
-                        className="text-right text-sm"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.4, delay: 0.3 }}
-                    >
-                        <button type="button" onClick={handleForgotPassword} className="text-blue-600 dark:text-blue-400 hover:underline">
-                            Forgot password?
-                        </button>
-                    </motion.div>
-
-                    {error && <p className="text-red-500 text-sm">{error}</p>}
-
-                    {/* Submit Button */}
-                    <motion.button
-                        type="submit"
-                        className="btn bg-gradient-to-r from-teal-500 to-cyan-500 text-white w-full"
+                    <motion.p
+                        className="text-lg max-w-md leading-relaxed"
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4, delay: 0.4 }}
+                        transition={{ delay: 0.3 }}
                     >
-                        Login
-                    </motion.button>
-                </form>
+                        Ready to manage your home with ease? Sign in to explore available apartments, manage agreements, and more.
+                    </motion.p>
 
-                {/* Divider */}
-                <motion.div
-                    className="divider my-4"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.5 }}
-                >
-                    OR
+                    {/* Decorative Circles */}
+                    <div className="absolute -top-10 -left-10 w-32 h-32 bg-white/20 rounded-full blur-2xl"></div>
+                    <div className="absolute -bottom-10 -right-10 w-24 h-24 bg-white/20 rounded-full blur-xl"></div>
                 </motion.div>
 
-                {/* Google Login */}
-                <motion.button
-                    onClick={handleGoogleLogin}
-                    className="btn btn-outline w-full flex items-center justify-center gap-2"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.6 }}
+                {/* Right - Login Form */}
+                <motion.div
+                    className="p-8 w-full"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.6 }}
                 >
-                    <FcGoogle className="text-xl" />
-                    Continue with Google
-                </motion.button>
+                    <h2 className="text-center text-3xl font-bold text-teal-600 dark:text-teal-400 mb-6">
+                        Sign in to your account
+                    </h2>
 
-                <motion.p
-                    className="mt-6 text-center text-sm text-gray-600 dark:text-gray-300"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.7 }}
-                >
-                    Don’t have an account?{' '}
-                    <Link className="text-blue-600 dark:text-blue-400 hover:underline font-medium" to="/auth/register">
-                        Register
-                    </Link>
-                </motion.p>
-            </motion.div>
+                    <form onSubmit={handleLogin} className="space-y-4">
+                        {/* Email Field */}
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.4, delay: 0.1 }}
+                        >
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">Email</label>
+                            <input
+                                name="email"
+                                type="email"
+                                className="input input-bordered w-full mt-1"
+                                placeholder="example@email.com"
+                                required
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                        </motion.div>
+
+                        {/* Password Field */}
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.4, delay: 0.2 }}
+                        >
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">Password</label>
+                            <input
+                                name="password"
+                                type="password"
+                                className="input input-bordered w-full mt-1"
+                                placeholder="********"
+                                required
+                            />
+                        </motion.div>
+
+                        {/* Forgot Password */}
+                        <motion.div
+                            className="text-right text-sm"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.3 }}
+                        >
+                            <button
+                                type="button"
+                                onClick={handleForgotPassword}
+                                className="text-blue-600 dark:text-blue-400 hover:underline"
+                            >
+                                Forgot password?
+                            </button>
+                        </motion.div>
+
+                        {error && <p className="text-red-500 text-sm">{error}</p>}
+
+                        {/* Submit Button */}
+                        <motion.button
+                            type="submit"
+                            className="btn bg-gradient-to-r from-teal-500 to-cyan-500 text-white w-full"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.4 }}
+                        >
+                            Login
+                        </motion.button>
+                    </form>
+
+                    {/* Divider */}
+                    <motion.div
+                        className="divider my-4"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.5 }}
+                    >
+                        OR
+                    </motion.div>
+
+                    {/* Google Button */}
+                    <motion.button
+                        onClick={handleGoogleLogin}
+                        className="btn btn-outline w-full flex items-center justify-center gap-2"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.6 }}
+                    >
+                        <FcGoogle className="text-xl" />
+                        Continue with Google
+                    </motion.button>
+
+                    {/* Register Link */}
+                    <motion.p
+                        className="mt-6 text-center text-sm text-gray-600 dark:text-gray-300"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.7 }}
+                    >
+                        Don’t have an account?{' '}
+                        <Link className="text-blue-600 dark:text-blue-400 hover:underline font-medium" to="/auth/register">
+                            Register
+                        </Link>
+                    </motion.p>
+                </motion.div>
+            </div>
         </div>
     );
+
+
+
 };
 
 export default Login;
