@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import { AuthContext } from '../Provider/AuthProvider';
 import { Helmet } from 'react-helmet-async';
 import { FcGoogle } from 'react-icons/fc';
+import { motion } from 'framer-motion';
 
 const Login = () => {
     const [error, setError] = useState("");
@@ -72,13 +73,23 @@ const Login = () => {
                 <title>Login | Home</title>
             </Helmet>
 
-            <div className="backdrop-blur-xl bg-white/80 dark:bg-gray-800/80 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 p-8 w-full max-w-sm transition-all duration-300 hover:shadow-3xl">
+            <motion.div
+                className="backdrop-blur-xl bg-white/80 dark:bg-gray-800/80 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 p-8 w-full max-w-sm transition-all duration-300 hover:shadow-3xl"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5 }}
+            >
                 <h2 className="text-center text-3xl font-bold text-teal-600 dark:text-teal-400 mb-6">
                     Welcome Back
                 </h2>
 
                 <form onSubmit={handleLogin} className="space-y-4">
-                    <div>
+                    {/* Email Field */}
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.4, delay: 0.1 }}
+                    >
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">Email</label>
                         <input
                             name="email"
@@ -89,9 +100,14 @@ const Login = () => {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
-                    </div>
+                    </motion.div>
 
-                    <div>
+                    {/* Password Field */}
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.4, delay: 0.2 }}
+                    >
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">Password</label>
                         <input
                             name="password"
@@ -100,38 +116,68 @@ const Login = () => {
                             placeholder="********"
                             required
                         />
-                    </div>
+                    </motion.div>
 
-                    <div className="text-right text-sm">
+                    {/* Forgot password */}
+                    <motion.div
+                        className="text-right text-sm"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.4, delay: 0.3 }}
+                    >
                         <button type="button" onClick={handleForgotPassword} className="text-blue-600 dark:text-blue-400 hover:underline">
                             Forgot password?
                         </button>
-                    </div>
+                    </motion.div>
 
                     {error && <p className="text-red-500 text-sm">{error}</p>}
 
-                    <button type="submit" className="btn bg-gradient-to-r from-teal-500 to-cyan-500 text-white w-full">
+                    {/* Submit Button */}
+                    <motion.button
+                        type="submit"
+                        className="btn bg-gradient-to-r from-teal-500 to-cyan-500 text-white w-full"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, delay: 0.4 }}
+                    >
                         Login
-                    </button>
+                    </motion.button>
                 </form>
 
-                <div className="divider my-4">OR</div>
+                {/* Divider */}
+                <motion.div
+                    className="divider my-4"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                >
+                    OR
+                </motion.div>
 
-                <button
+                {/* Google Login */}
+                <motion.button
                     onClick={handleGoogleLogin}
                     className="btn btn-outline w-full flex items-center justify-center gap-2"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.6 }}
                 >
                     <FcGoogle className="text-xl" />
                     Continue with Google
-                </button>
+                </motion.button>
 
-                <p className="mt-6 text-center text-sm text-gray-600 dark:text-gray-300">
+                <motion.p
+                    className="mt-6 text-center text-sm text-gray-600 dark:text-gray-300"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.7 }}
+                >
                     Don’t have an account?{' '}
                     <Link className="text-blue-600 dark:text-blue-400 hover:underline font-medium" to="/auth/register">
                         Register
                     </Link>
-                </p>
-            </div>
+                </motion.p>
+            </motion.div>
         </div>
     );
 };
