@@ -1,16 +1,21 @@
 # 🏠 Building Management Frontend
 
-This is the **frontend** for the Home Arc platform – a modern real estate solution for apartment listings, agreements, coupons, and more. Built with React and deployed on Firebase Hosting.
+A modern frontend for the Home Arc platform — a real estate solution for apartment listings, agreements, coupons, and admin management.  
+Built with React and deployed on Firebase Hosting.
 
 ---
 
 ## 🚀 Live Site
 
-🔗 https://building-management-8a441.web.app/
+🔗 [https://building-management-8a441.web.app/](https://building-management-8a441.web.app/)
 
 ---
 
-## ⚙️ Tech Stack
+## 🖼️ Screenshot
+
+https://i.ibb.co.com/k62gnZxG/Screenshot-2025-08-08-153948.png
+
+## ⚙️ Technologies Used
 
 - React.js (with Vite)
 - Tailwind CSS
@@ -19,18 +24,37 @@ This is the **frontend** for the Home Arc platform – a modern real estate solu
 - React Query
 - SweetAlert2
 - Framer Motion
-- Deployed on Firebase Hosting
+- Firebase Hosting (deployment)
 
 ---
 
-## 📦 Features
+## 📦 Core Features
 
-- 🔐 Firebase-based user login system
-- 📋 Apartment browsing with filtering and pagination
-- 📝 Agreement requests (with role-based access)
-- 🎁 Coupon management and display
-- 📢 Admin-only announcements
-- 🧑 Admin panel for user & data control
+- 🔐 Firebase-based user login and role management  
+- 📋 Apartment browsing with filtering and pagination  
+- 📝 Agreement request submission with role-based access control  
+- 🎁 Coupon management and display for users  
+- 📢 Admin-only announcements feature  
+- 🧑 Admin panel for managing users and data  
 
 ---
 
+## 🛠️ Dependencies
+
+- react  
+- react-dom  
+- react-router-dom  
+- firebase  
+- @tanstack/react-query  
+- sweetalert2  
+- framer-motion  
+- tailwindcss  
+
+---
+
+## 🚀 Getting Started — Run Locally
+
+1. Clone the repo:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+   cd YOUR_REPO_NAME
