@@ -13,7 +13,7 @@ Built with React and deployed on Firebase Hosting.
 
 ## 🖼️ Screenshot
 
-https://i.ibb.co.com/k62gnZxG/Screenshot-2025-08-08-153948.png
+![Building Management Screenshot](./https://i.ibb.co.com/k62gnZxG/Screenshot-2025-08-08-153948.png)  
 
 ## ⚙️ Technologies Used
 
