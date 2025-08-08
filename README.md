@@ -56,5 +56,5 @@ https://i.ibb.co.com/k62gnZxG/Screenshot-2025-08-08-153948.png
 
 1. Clone the repo:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+   git clone https://github.com/rubayetalam21/building-management-client.git
    cd YOUR_REPO_NAME
