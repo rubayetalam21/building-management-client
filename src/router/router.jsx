@@ -24,6 +24,7 @@ import Payment from "../Pages/Payment/Payment";
 import PaymentHistory from "../Pages/PaymentHistory";
 import AdminProfile from "../Pages/AdminProfile";
 import AvailableApartments from "../Pages/AvailableApartments";
+import Review from "../Pages/Review";
 
 
 
@@ -46,7 +47,11 @@ const router = createBrowserRouter([
             },
             {
                 path: 'coupons',
-                element:<CouponSection></CouponSection>
+                element: <CouponSection></CouponSection>
+            },
+            {
+                path: 'reviews',
+                element: <Review></Review>
             }
 
         ],
