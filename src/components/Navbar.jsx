@@ -47,12 +47,16 @@ const Navbar = () => {
         <nav className="fixed top-0 left-0 w-full z-50 bg-white/40 dark:bg-gray-900/40 backdrop-blur-xl shadow-lg border-b border-gray-200/30 dark:border-gray-700/30">
             <div className="w-11/12 mx-auto py-3 flex items-center justify-between">
                 {/* Logo */}
-                <Link
-                    to="/"
-                    className="text-2xl font-extrabold bg-gradient-to-r from-teal-400 to-cyan-500 bg-clip-text text-transparent tracking-wide"
-                >
-                    🏢 Building<span className="ml-1">Management</span>
+                <Link to="/" className="text-2xl font-extrabold tracking-wide flex items-center gap-1">
+                    {/* Emoji stays original */}
+                    <span className="inline-block">🏢</span>
+
+                    {/* Gradient text */}
+                    <span className="bg-gradient-to-r from-teal-400 to-cyan-500 bg-clip-text text-transparent">
+                        Building<span className="ml-1">Management</span>
+                    </span>
                 </Link>
+
 
                 {/* Desktop Menu */}
                 <div className="hidden md:flex items-center gap-6">
