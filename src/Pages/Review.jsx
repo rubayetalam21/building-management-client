@@ -10,7 +10,7 @@ const Review = () => {
             avatar: "https://i.pravatar.cc/100?img=1",
         },
         {
-            name: "Shyamal Mollah",
+            name: "Md. Shyamal Mollah",
             rating: 4,
             comment: "Great experience overall, very satisfied with the services.",
             avatar: "https://i.pravatar.cc/100?img=2",
