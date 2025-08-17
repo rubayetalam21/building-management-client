@@ -6,6 +6,7 @@ import CouponSection from './CouponSection';
 import LocationSection from './LocationSection';
 import { Helmet } from 'react-helmet-async';
 import Review from './Review';
+import AmenitiesSection from './AmenitiesSection';
 
 const Home = () => {
     return (
@@ -17,6 +18,7 @@ const Home = () => {
             <AboutBuilding></AboutBuilding>
             <CouponSection></CouponSection>
             <LocationSection></LocationSection>
+            <AmenitiesSection></AmenitiesSection>
             <Review></Review>
             <AllApartments></AllApartments>
             
