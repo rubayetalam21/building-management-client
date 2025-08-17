@@ -16,7 +16,7 @@ const Review = () => {
             avatar: "https://i.pravatar.cc/100?img=2",
         },
         {
-            name: "Md Rifat Hossain",
+            name: "Rifat Hossain",
             rating: 5,
             comment: "Spacious apartments and excellent management.",
             avatar: "https://i.pravatar.cc/100?img=3",
