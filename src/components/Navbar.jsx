@@ -51,7 +51,7 @@ const Navbar = () => {
                 {/* Logo */}
                 <Link
                     to="/"
-                    className="font-bold text-2xl bg-gradient-to-r from-teal-400 to-teal-600 bg-clip-text text-transparent"
+                    className="text-2xl font-bold text-teal-400 mb-2"
                 >
                     🏢 Building Management
                 </Link>

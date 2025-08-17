@@ -27,7 +27,7 @@ const Slider = () => {
                         />
                         <div className="absolute inset-0 bg-black/40 flex items-end">
                             <h2 className="text-white text-xl md:text-3xl font-bold p-4">
-                                Tech Gadget Box
+                                City Building
                             </h2>
                         </div>
                     </div>
@@ -42,7 +42,7 @@ const Slider = () => {
                         />
                         <div className="absolute inset-0 bg-black/40 flex items-end">
                             <h2 className="text-white text-xl md:text-3xl font-bold p-4">
-                                Organic Beauty Box
+                                Ready Apartments
                             </h2>
                         </div>
                     </div>
@@ -57,7 +57,7 @@ const Slider = () => {
                         />
                         <div className="absolute inset-0 bg-black/40 flex items-end">
                             <h2 className="text-white text-xl md:text-3xl font-bold p-4">
-                                Book Lovers Box
+                                Dream House
                             </h2>
                         </div>
                     </div>

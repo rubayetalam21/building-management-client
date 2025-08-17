@@ -48,27 +48,36 @@ const AllApartments = () => {
             return navigate('/auth/login', { state: { from: location }, replace: true });
         }
 
-        const agreementData = {
-            userName: user.displayName,
-            userEmail: user.email,
-            floor: apt.floor,
-            block: apt.block,
-            apartmentNo: apt.apartmentNo,
-            rent: apt.rent,
-        };
+        try {
+            const token = await user.getIdToken();
 
-        const res = await fetch('https://b11a12-server-side-rubayetalam21.vercel.app/agreements', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(agreementData),
-        });
+            const agreementData = {
+                userName: user.displayName,
+                userEmail: user.email,
+                floor: apt.floor,
+                block: apt.block,
+                apartmentNo: apt.apartmentNo,
+                rent: apt.rent,
+            };
 
-        const result = await res.json();
-        if (res.ok) {
-            Swal.fire('Success', 'Agreement request submitted!', 'success');
-            refetch();
-        } else {
-            Swal.fire('Error', result.message || 'Already applied.', 'error');
+            const res = await fetch('https://b11a12-server-side-rubayetalam21.vercel.app/agreements', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify(agreementData),
+            });
+
+            const result = await res.json();
+            if (res.ok) {
+                Swal.fire('Success', 'Agreement request submitted!', 'success');
+                refetch();
+            } else {
+                Swal.fire('Error', result.message || 'Something went wrong', 'error');
+            }
+        } catch (error) {
+            Swal.fire('Error', error.message || 'Something went wrong', 'error');
         }
     };
 
