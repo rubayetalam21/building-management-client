@@ -72,7 +72,7 @@ const Slider = () => {
                         />
                         <div className="absolute inset-0 bg-black/40 flex items-end">
                             <h2 className="text-white text-xl md:text-3xl font-bold p-4">
-                                Luxury Home Box
+                                Building Management
                             </h2>
                         </div>
                     </div>
