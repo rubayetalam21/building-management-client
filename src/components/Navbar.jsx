@@ -67,6 +67,10 @@ const Navbar = () => {
                     <NavLink to="/coupons" className={navLinkStyle}>
                         Coupon
                     </NavLink>
+                     <NavLink to="/reviews" className={navLinkStyle}>
+                        Reviews
+                    </NavLink>
+                    
 
                     {/* Theme toggle */}
                     <label className="label cursor-pointer gap-2">
