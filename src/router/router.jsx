@@ -43,6 +43,10 @@ const router = createBrowserRouter([
             {
                 path: '/availableApartments',
                 element: <AvailableApartments></AvailableApartments>
+            },
+            {
+                path: 'coupons',
+                element:<CouponSection></CouponSection>
             }
 
         ],
