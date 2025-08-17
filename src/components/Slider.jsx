@@ -19,34 +19,64 @@ const Slider = () => {
                 className="rounded-xl overflow-hidden"
             >
                 <SwiperSlide>
-                    <img
-                        src="https://i.ibb.co/tMnyMVS7/building-4.jpg"
-                        alt="Tech Gadget Box"
-                        className="w-full h-[400px] object-cover"
-                    />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <img
-                        src="https://i.ibb.co/0yYqTysr/building-3.jpg"
-                        alt="Organic Beauty Box"
-                        className="w-full h-[400px] object-cover"
-                    />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <img
-                        src="https://i.ibb.co/GvSNnhHs/building-5.jpg"
-                        alt="Book Lovers Box"
-                        className="w-full h-[400px] object-cover"
-                    />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <img
-                        src="https://i.ibb.co/7xzrNzwm/building-1.jpg"
-                        alt="Book Lovers Box"
-                        className="w-full h-[400px] object-cover"
-                    />
+                    <div className="relative">
+                        <img
+                            src="https://i.ibb.co/tMnyMVS7/building-4.jpg"
+                            alt="Tech Gadget Box"
+                            className="w-full h-[400px] object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/40 flex items-end">
+                            <h2 className="text-white text-xl md:text-3xl font-bold p-4">
+                                Tech Gadget Box
+                            </h2>
+                        </div>
+                    </div>
                 </SwiperSlide>
 
+                <SwiperSlide>
+                    <div className="relative">
+                        <img
+                            src="https://i.ibb.co/0yYqTysr/building-3.jpg"
+                            alt="Organic Beauty Box"
+                            className="w-full h-[400px] object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/40 flex items-end">
+                            <h2 className="text-white text-xl md:text-3xl font-bold p-4">
+                                Organic Beauty Box
+                            </h2>
+                        </div>
+                    </div>
+                </SwiperSlide>
+
+                <SwiperSlide>
+                    <div className="relative">
+                        <img
+                            src="https://i.ibb.co/GvSNnhHs/building-5.jpg"
+                            alt="Book Lovers Box"
+                            className="w-full h-[400px] object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/40 flex items-end">
+                            <h2 className="text-white text-xl md:text-3xl font-bold p-4">
+                                Book Lovers Box
+                            </h2>
+                        </div>
+                    </div>
+                </SwiperSlide>
+
+                <SwiperSlide>
+                    <div className="relative">
+                        <img
+                            src="https://i.ibb.co/7xzrNzwm/building-1.jpg"
+                            alt="Luxury Home Box"
+                            className="w-full h-[400px] object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/40 flex items-end">
+                            <h2 className="text-white text-xl md:text-3xl font-bold p-4">
+                                Luxury Home Box
+                            </h2>
+                        </div>
+                    </div>
+                </SwiperSlide>
             </Swiper>
         </div>
     );
