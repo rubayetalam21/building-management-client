@@ -119,7 +119,7 @@ const AllApartments = () => {
             </div>
 
             {/* Apartment Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-black">
                 {apartments.length > 0 ? (
                     apartments.map((apt) => (
                         <div key={apt.apartmentNo} className="shadow rounded-lg p-4 border bg-white dark:bg-gray-800">
@@ -142,7 +142,7 @@ const AllApartments = () => {
             </div>
 
             {/* Pagination */}
-            <div className="mt-10 overflow-x-auto">
+            <div className="mt-10 overflow-x-auto text-black">
                 <div className="flex justify-center gap-2 w-max mx-auto">
                     <button
                         disabled={page === 1}
