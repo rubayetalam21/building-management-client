@@ -25,6 +25,7 @@ import PaymentHistory from "../Pages/PaymentHistory";
 import AdminProfile from "../Pages/AdminProfile";
 import AvailableApartments from "../Pages/AvailableApartments";
 import Review from "../Pages/Review";
+import AmenitiesSection from "../Pages/AmenitiesSection";
 
 
 
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
             {
                 path: 'reviews',
                 element: <Review></Review>
+            },
+            {
+                path: 'amenities',
+                element: <AmenitiesSection></AmenitiesSection>
             }
 
         ],

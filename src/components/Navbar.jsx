@@ -70,6 +70,10 @@ const Navbar = () => {
                      <NavLink to="/reviews" className={navLinkStyle}>
                         Reviews
                     </NavLink>
+                    <NavLink to="/amenities" className={navLinkStyle}>
+                        Amenities
+                    </NavLink>
+            
                     
 
                     {/* Theme toggle */}
